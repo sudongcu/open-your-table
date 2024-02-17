@@ -12,18 +12,11 @@ namespace OpenYourTable.Model
 
 		public required string password { get; set; }
 
-		public required DBInfo dbInfo { get; set; }
+		public required string schema { get; set; }
 
 		public override string ToString()
 		{
-			return $"server={host};port={port};user id={id};password={password};database={dbInfo.schema};";
+			return $"server={host};port={port};user id={id};password={password};database={schema};";
 		}
-	}
-
-	public class DBInfo()
-	{
-		public required DB_TYPE type { get; set; }
-
-		public required string schema { get; set; }
 	}
 }

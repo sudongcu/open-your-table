@@ -133,6 +133,7 @@
 			tb_password.ForeColor = Color.DodgerBlue;
 			tb_password.Location = new Point(202, 127);
 			tb_password.Name = "tb_password";
+			tb_password.PasswordChar = '*';
 			tb_password.Size = new Size(498, 27);
 			tb_password.TabIndex = 7;
 			// 

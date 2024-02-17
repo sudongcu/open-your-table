@@ -51,6 +51,7 @@ namespace OpenYourTable.App
 			cb_type.DataSource = new BindingSource(dbType, null);
 		}
 
+
 		#endregion / Initialize
 
 		private Dictionary<string, string> GetDBTypeDictionary()
@@ -91,16 +92,16 @@ namespace OpenYourTable.App
 				port = tb_port.Text,
 				id = tb_id.Text,
 				password = tb_password.Text,
-				dbInfo = new DBInfo()
-				{
-					schema = tb_schema.Text,
-					type = (DB_TYPE)Enum.Parse(typeof(DB_TYPE), cb_type.SelectedValue.ToString())
-				}
+				schema = tb_schema.Text
 			};
 
-			var dataFetchForm = new DataFetchForm(_dataFetchService, connectionInfo);
+			DBConnectionInfo.connectionString = connectionInfo.ToString();
+			DBConnectionInfo.dbType = (DB_TYPE)Enum.Parse(typeof(DB_TYPE), cb_type.SelectedValue.ToString());
+			DBConnectionInfo.schema = connectionInfo.schema;
+			
+			var dataFetchForm = new DataFetchForm(_dataFetchService);
+			this.Hide();
 			dataFetchForm.ShowDialog();
-
 			this.Close();
 		}
 

@@ -31,10 +31,12 @@
 			splitContainer1 = new SplitContainer();
 			treeView = new TreeView();
 			panel1 = new Panel();
+			btn_execute = new Button();
 			((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
 			splitContainer1.Panel1.SuspendLayout();
 			splitContainer1.Panel2.SuspendLayout();
 			splitContainer1.SuspendLayout();
+			panel1.SuspendLayout();
 			SuspendLayout();
 			// 
 			// splitContainer1
@@ -57,22 +59,42 @@
 			// 
 			treeView.BackColor = Color.White;
 			treeView.BorderStyle = BorderStyle.FixedSingle;
+			treeView.CheckBoxes = true;
 			treeView.Dock = DockStyle.Fill;
+			treeView.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+			treeView.ForeColor = Color.DodgerBlue;
 			treeView.LineColor = Color.DodgerBlue;
 			treeView.Location = new Point(0, 0);
 			treeView.Name = "treeView";
 			treeView.Size = new Size(494, 820);
 			treeView.TabIndex = 0;
+			treeView.AfterCheck += treeView_AfterCheck;
 			// 
 			// panel1
 			// 
 			panel1.BackColor = Color.White;
 			panel1.BorderStyle = BorderStyle.FixedSingle;
+			panel1.Controls.Add(btn_execute);
 			panel1.Dock = DockStyle.Fill;
 			panel1.Location = new Point(0, 0);
 			panel1.Name = "panel1";
 			panel1.Size = new Size(682, 820);
 			panel1.TabIndex = 0;
+			// 
+			// btn_execute
+			// 
+			btn_execute.BackColor = Color.Azure;
+			btn_execute.FlatAppearance.BorderSize = 5;
+			btn_execute.FlatStyle = FlatStyle.Flat;
+			btn_execute.Font = new Font("Impact", 60F, FontStyle.Regular, GraphicsUnit.Point, 0);
+			btn_execute.ForeColor = SystemColors.MenuHighlight;
+			btn_execute.Location = new Point(32, 656);
+			btn_execute.Name = "btn_execute";
+			btn_execute.Size = new Size(619, 140);
+			btn_execute.TabIndex = 11;
+			btn_execute.Text = "E X E C U T E";
+			btn_execute.UseVisualStyleBackColor = false;
+			btn_execute.Click += btn_execute_Click;
 			// 
 			// DataFetchForm
 			// 
@@ -89,6 +111,7 @@
 			splitContainer1.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
 			splitContainer1.ResumeLayout(false);
+			panel1.ResumeLayout(false);
 			ResumeLayout(false);
 		}
 
@@ -97,5 +120,6 @@
 		private SplitContainer splitContainer1;
 		private TreeView treeView;
 		private Panel panel1;
+		private Button btn_execute;
 	}
 }
