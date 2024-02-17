@@ -1,2 +1,2 @@
 # Open Your Table
-A WinForms application for generating and downloading database table specifications.
+.NET 8 WinForms application for generating and downloading database table specifications.
