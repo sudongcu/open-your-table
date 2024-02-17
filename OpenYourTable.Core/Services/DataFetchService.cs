@@ -19,7 +19,7 @@ namespace OpenYourTable.Core.Services
 			if (entityTableSchemas.Count == 0)
 				return Enumerable.Empty<TableSchema>().ToList();
 
-			var tableSchemas = entityTableSchemas.Select(schema => new TableSchema(schema.TABLE_NAME, schema.TABLE_COMMENT)).ToList();
+			var tableSchemas = entityTableSchemas.Select(schema => new TableSchema(schema.table_name, schema.table_comment)).ToList();
 
 			return tableSchemas;
 		}
@@ -27,6 +27,9 @@ namespace OpenYourTable.Core.Services
 		public byte[]? GenerateSpecifications(List<string> tableList)
 		{
 			byte[]? specificationBytes = null;
+
+			var entityTableSpecifications = _dataRepository.SelectTableSpecification(tableList);
+
 
 
 			return specificationBytes;

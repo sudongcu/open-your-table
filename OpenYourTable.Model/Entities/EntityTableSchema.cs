@@ -2,8 +2,8 @@
 {
 	public class EntityTableSchema
 	{
-		public string TABLE_NAME { get; set; }
+		public string table_name { get; set; }
 
-		public string TABLE_COMMENT { get; set; }
+		public string table_comment { get; set; }
 	}
 }

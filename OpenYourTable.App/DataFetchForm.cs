@@ -20,6 +20,7 @@ namespace OpenYourTable.App
 		private void DataFetchForm_Load(object sender, EventArgs e)
 		{
 			Init();
+			isLoaded = true;
 		}
 
 		#region Initialize
@@ -27,7 +28,6 @@ namespace OpenYourTable.App
 		private void Init()
 		{
 			InitTreeView();
-			isLoaded = true;
 		}
 
 		private void InitTreeView()
@@ -63,11 +63,11 @@ namespace OpenYourTable.App
 		{
 			foreach (TreeNode node in nodes)
 			{
-				// 현재 노드의 텍스트를 리스트에 추가
-				nodeList.Add(node.Text);
+				if (node.Checked)
+					nodeList.Add(node.Text);
 
-				// 현재 노드의 자식 노드들에 대해 재귀적으로 조회
-				AssignNodesToList(node.Nodes, ref nodeList);
+				if (node.Nodes.Count > 0)
+					AssignNodesToList(node.Nodes, ref nodeList);
 			}
 		}
 
@@ -104,7 +104,7 @@ namespace OpenYourTable.App
 
 						foreach (TreeNode childNode in parentNode.Nodes)
 						{
-							if (!childNode.Checked)
+							if (childNode.Checked == false)
 							{
 								allChildrenChecked = false;
 								break;
@@ -131,6 +131,10 @@ namespace OpenYourTable.App
 
 			AssignNodesToList(treeView.Nodes, ref tableList);
 
+			if (tableList.Count == 0)
+				return;
+
+			var tableSpecifications = _dataFetchService.GenerateSpecifications(tableList);
 
 		}
 	}
