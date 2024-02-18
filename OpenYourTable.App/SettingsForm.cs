@@ -39,7 +39,7 @@ namespace OpenYourTable.App
 			tb_id.Text = string.Empty;
 			tb_password.Text = string.Empty;
 			tb_schema.Text = string.Empty;
-			tb_port.Text = string.Empty;
+			tb_port.Text = "3306";
 		}
 
 		private void InItUIComboBox()
