@@ -4,7 +4,7 @@ using OpenYourTable.Infra.Repositories;
 
 namespace OpenYourTable.App.Configs
 {
-	public static class DIConfig
+	public static class ServiceCollectionExtensionConfig
 	{
 		public static IServiceCollection ConfigureDI(this IServiceCollection services)
 		{

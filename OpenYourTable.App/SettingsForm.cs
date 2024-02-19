@@ -78,6 +78,14 @@ namespace OpenYourTable.App
 			return true;
 		}
 
+		private void ShowOPEN()
+		{
+			var dataFetchForm = new DataFetchForm(_dataFetchService);
+			this.Hide();
+			dataFetchForm.ShowDialog();
+			this.Close();
+		}
+
 		private void btn_open_Click(object sender, EventArgs e)
 		{
 			if (IsTextBoxEmpty() == false)
@@ -98,11 +106,11 @@ namespace OpenYourTable.App
 			DBConnectionInfo.connectionString = connectionInfo.ToString();
 			DBConnectionInfo.dbType = (DB_TYPE)Enum.Parse(typeof(DB_TYPE), cb_type.SelectedValue.ToString());
 			DBConnectionInfo.schema = connectionInfo.schema;
+
+			// Check Available Connection
+			_dataFetchService.CheckDBConnection();
 			
-			var dataFetchForm = new DataFetchForm(_dataFetchService);
-			this.Hide();
-			dataFetchForm.ShowDialog();
-			this.Close();
+			ShowOPEN();
 		}
 
 		private void cb_type_Click(object sender, EventArgs e)

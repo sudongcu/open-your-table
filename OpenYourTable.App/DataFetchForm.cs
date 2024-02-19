@@ -39,17 +39,17 @@ namespace OpenYourTable.App
 
 		private void BindTableTree()
 		{
-			var tableSchemas = _dataFetchService.GetTableSchemas();
+			var tables = _dataFetchService.GetTableSchemas();
 
 			TreeNode parentNode = treeView.Nodes.Add(DBConnectionInfo.schema);
 			parentNode.Checked = true;
 
-			TreeNode[] childNodes = new TreeNode[tableSchemas.Count];
+			TreeNode[] childNodes = new TreeNode[tables.Count];
 
 			int idx = 0;
-			foreach (var schema in tableSchemas)
+			foreach (var tableName in tables)
 			{
-				childNodes[idx++] = new TreeNode(schema.name)
+				childNodes[idx++] = new TreeNode(tableName)
 				{
 					Checked = true
 				};
@@ -134,8 +134,20 @@ namespace OpenYourTable.App
 			if (tableList.Count == 0)
 				return;
 
-			var tableSpecifications = _dataFetchService.GenerateSpecifications(tableList);
+			var tableSpecificationsBytes = _dataFetchService.GenerateSpecifications(tableList);
+			
+			SaveFileDialog saveFileDialog = new SaveFileDialog
+			{
+				FileName = $"{DBConnectionInfo.schema}_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}.csv",
+				Filter = "Csv Files (*.csv)|8.csv"
+			};
 
+			if (saveFileDialog.ShowDialog() == DialogResult.OK)
+			{
+				File.WriteAllBytes(saveFileDialog.FileName, tableSpecificationsBytes);
+
+				MessageBox.Show("Specification File is downloaded.", "Downloaded", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			}
 		}
 	}
 }
