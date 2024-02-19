@@ -1,4 +1,5 @@
-# open-your-table ( MVP Ver )
+
+# Open Your Table ( MVP Ver )
 A WinForms application for generating and downloading database table specifications.
 
 1. Setting Database Connection Information. Click OPEN.
