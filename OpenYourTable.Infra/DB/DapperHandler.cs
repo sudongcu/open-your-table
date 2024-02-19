@@ -4,7 +4,7 @@ using OpenYourTable.Model.Enums;
 
 namespace OpenYourTable.Infra.DB
 {
-	public class DapperHandler
+	internal class DapperHandler
 	{
 		private readonly DBHandler _dbHandler;
 
@@ -33,6 +33,15 @@ namespace OpenYourTable.Infra.DB
 				var queryResult = connection.Query<T>(sql, parameters);
 
 				return queryResult.AsList();
+			}
+		}
+		public T QueryFirstOrDefault<T>(string sql, Dictionary<string, object>? parameters = null)
+		{
+			using (var connection = _dbHandler.GetConnection())
+			{
+				var queryResult = connection.QueryFirstOrDefault<T>(sql, parameters);
+
+				return queryResult;
 			}
 		}
 	}

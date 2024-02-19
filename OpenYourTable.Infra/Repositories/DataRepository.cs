@@ -11,8 +11,19 @@ namespace OpenYourTable.Infra.Repositories
 
 		}
 
+		public bool SelectHealthy()
+		{
+			var dapperHandler = new DapperHandler();
 
-		public List<EntityTableSchema> SelectTableSchema()
+			string queryStr = "SELECT true as is_healthy";
+
+			var healthy = dapperHandler.QueryFirstOrDefault<bool>(queryStr);
+
+			return healthy;
+		}
+
+
+		public List<string> SelectTableList()
 		{
 			var dapperHandler = new DapperHandler();
 			
@@ -21,13 +32,13 @@ namespace OpenYourTable.Infra.Repositories
 				{ "@schema", DBConnectionInfo.schema }
 			};
 
-			string queryStr = @"SELECT TABLE_NAME AS table_name, TABLE_COMMENT AS table_comment
+			string queryStr = @"SELECT TABLE_NAME AS table_name
 								FROM INFORMATION_SCHEMA.TABLES
 								WHERE TABLE_SCHEMA = @schema ; ";
 
-			var entityTableSchemas = dapperHandler.Query<EntityTableSchema>(queryStr, parameters);
+			var entityTableNames = dapperHandler.Query<string>(queryStr, parameters);
 
-			return entityTableSchemas;
+			return entityTableNames;
 		}
 
 		public List<EntityTableSpecification> SelectTableSpecification(List<string> tableList)
@@ -42,10 +53,15 @@ namespace OpenYourTable.Infra.Repositories
 
 			string queryStr = @"SELECT 
 									t.TABLE_NAME AS table_name,
+									t.TABLE_COMMENT as table_comment,
 									c.COLUMN_NAME AS column_name,
 									c.DATA_TYPE AS data_type,
+									c.CHARACTER_MAXIMUM_LENGTH AS max_length,
 									c.COLUMN_KEY AS column_key,
 									CASE WHEN c.IS_NULLABLE = 'YES' THEN TRUE ELSE FALSE END AS is_nullable,
+									c.COLUMN_DEFAULT AS default_value,
+									c.EXTRA AS default_extra,
+									c.COLUMN_COMMENT AS comment,
 									s.INDEX_NAME AS index_name,
 									s.SEQ_IN_INDEX AS seq_in_index,
 									s.NON_UNIQUE AS non_unique

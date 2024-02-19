@@ -1,5 +1,8 @@
-﻿using OpenYourTable.Infra.Repositories;
+﻿using OpenYourTable.Core.Utils;
+using OpenYourTable.Infra.Repositories;
 using OpenYourTable.Model.DataFetch;
+using OpenYourTable.Model.Entities;
+using System;
 
 namespace OpenYourTable.Core.Services
 {
@@ -12,16 +15,29 @@ namespace OpenYourTable.Core.Services
 			_dataRepository = dataRepository;
 		}
 
-		public List<TableSchema> GetTableSchemas()
+		public void CheckDBConnection()
 		{
-			var entityTableSchemas = _dataRepository.SelectTableSchema();
+			try
+			{
+				bool isHealthy = _dataRepository.SelectHealthy();
 
-			if (entityTableSchemas.Count == 0)
-				return Enumerable.Empty<TableSchema>().ToList();
+				if (isHealthy == false)
+					throw new Exception("Connection Information is wrong.");
+			}
+			catch
+			{
+				throw new Exception("Connection Information is wrong.");
+			}
+		}
 
-			var tableSchemas = entityTableSchemas.Select(schema => new TableSchema(schema.table_name, schema.table_comment)).ToList();
+		public List<string> GetTableSchemas()
+		{
+			var entityTables = _dataRepository.SelectTableList();
 
-			return tableSchemas;
+			if (entityTables.Count == 0)
+				return Enumerable.Empty<string>().ToList();
+
+			return entityTables;
 		}
 
 		public byte[]? GenerateSpecifications(List<string> tableList)
@@ -30,9 +46,47 @@ namespace OpenYourTable.Core.Services
 
 			var entityTableSpecifications = _dataRepository.SelectTableSpecification(tableList);
 
+			var tableSpecifications = this.GetTableSpecificationList(tableList, entityTableSpecifications);
 
+			specificationBytes = ExcelHelper.CreateExcelFile(tableSpecifications);
 
 			return specificationBytes;
+		}
+
+		private List<TableSpecification> GetTableSpecificationList(List<string> tableList, List<EntityTableSpecification> entityTableSpecifications)
+		{
+			var tableSpecifications = new List<TableSpecification>();
+			
+			foreach (var table in tableList)
+			{
+				var tableSpecification = new TableSpecification();
+
+				var entityItems = entityTableSpecifications.Where(w => w.table_name == table).Select(s => s).ToArray();
+				if (entityItems is null || entityItems.Length == 0)
+					continue;
+
+				tableSpecification.name = entityItems[0].table_name;
+				tableSpecification.comment = entityItems[0].table_comment;
+				tableSpecification.columns = [];
+
+				foreach (var entityItem in entityItems)
+				{
+					tableSpecification.columns.Add(new ColumnSpecification()
+					{
+						name = entityItem.column_name,
+						dataType = entityItem.data_type,
+						maxLength = entityItem.max_length.ToString() ?? string.Empty,
+						nullable = entityItem.is_nullable ? "Y" : string.Empty,
+						index = DataHelper.GenerateIndexValue(entityItem.index_name, entityItem.non_unique),
+						defaultValue = DataHelper.GenerateDefaultValue(entityItem.default_value, entityItem.default_extra),
+						comment = entityItem.comment
+					});
+				}
+
+				tableSpecifications.Add(tableSpecification);
+			}
+
+			return tableSpecifications;
 		}
 	}
 }

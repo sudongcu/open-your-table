@@ -13,6 +13,8 @@ namespace OpenYourTable.App
 		[STAThread]
 		static void Main()
 		{
+			OfficeOpenXml.ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
+
 			ApplicationConfiguration.Initialize();
 
 			// Exception Handling 

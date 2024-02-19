@@ -138,8 +138,8 @@ namespace OpenYourTable.App
 			
 			SaveFileDialog saveFileDialog = new SaveFileDialog
 			{
-				FileName = $"{DBConnectionInfo.schema}_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}.csv",
-				Filter = "Csv Files (*.csv)|8.csv"
+				FileName = $"{DBConnectionInfo.schema}_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}.xlsx",
+				Filter = "Excel Files (*.xlsx)|*.xlsx|All files (*.*)|*.*",
 			};
 
 			if (saveFileDialog.ShowDialog() == DialogResult.OK)
