@@ -1,17 +1,34 @@
+using Microsoft.Extensions.DependencyInjection;
+using OpenYourTable.App.Configs;
+using OpenYourTable.App.Events;
+using OpenYourTable.Core.Services;
+
 namespace OpenYourTable.App
 {
 	internal static class Program
 	{
 		/// <summary>
-		///  The main entry point for the application.
+		/// The main entry point for the application.
 		/// </summary>
 		[STAThread]
 		static void Main()
 		{
-			// To customize application configuration such as set high DPI settings or default font,
-			// see https://aka.ms/applicationconfiguration.
+			OfficeOpenXml.ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
+
 			ApplicationConfiguration.Initialize();
-			Application.Run(new Form1());
+
+			// Exception Handling 
+			Application.ThreadException += new ThreadExceptionEventHandler(ExceptionEvent.CustomThreadException);
+			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(ExceptionEvent.CustomExceptionHandler);
+
+			// Dependency Injection
+			var services = new ServiceCollection().ConfigureDI();
+			var serviceProvider = services.BuildServiceProvider();
+
+			var dataFetchService = serviceProvider.GetRequiredService<DataFetchService>();
+
+			// Create an instance of SettingsForm and inject the SettingService
+			Application.Run(new SettingsForm(dataFetchService));
 		}
 	}
 }
