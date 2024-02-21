@@ -10,4 +10,4 @@ A WinForms application for generating and downloading database table specificati
 ![datafetch](https://github.com/sudongcu/open-your-table/assets/39644202/81a404a6-55bf-47e2-87ec-7c9403602d39)
 
 3. Open table document.
-![result](https://github.com/sudongcu/open-your-table/assets/39644202/56a17791-0d45-4bf6-805f-04c42099fa1a)
+![result](https://github.com/sudongcu/open-your-table/assets/39644202/35090e75-b735-4b7f-beaf-e7820012e029)
