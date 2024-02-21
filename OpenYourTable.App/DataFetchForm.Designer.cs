@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DataFetchForm));
 			splitContainer1 = new SplitContainer();
 			treeView = new TreeView();
 			panel1 = new Panel();
@@ -103,6 +104,7 @@
 			BackColor = Color.White;
 			ClientSize = new Size(1201, 842);
 			Controls.Add(splitContainer1);
+			Icon = (Icon)resources.GetObject("$this.Icon");
 			Name = "DataFetchForm";
 			StartPosition = FormStartPosition.CenterScreen;
 			Text = "Open Your Table";
