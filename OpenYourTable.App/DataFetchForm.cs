@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using OpenYourTable.Core.Services;
 using OpenYourTable.Model;
+using System.Reflection;
 
 namespace OpenYourTable.App
 {
@@ -20,7 +21,11 @@ namespace OpenYourTable.App
 		private void DataFetchForm_Load(object sender, EventArgs e)
 		{
 			Init();
+			
 			isLoaded = true;
+
+			Version version = Assembly.GetEntryAssembly().GetName().Version;
+			this.Text += $" {version}";
 		}
 
 		#region Initialize
