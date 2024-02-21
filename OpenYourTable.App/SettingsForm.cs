@@ -1,6 +1,7 @@
 using OpenYourTable.Core.Services;
 using OpenYourTable.Model;
 using OpenYourTable.Model.Enums;
+using System.Reflection;
 
 namespace OpenYourTable.App
 {
@@ -18,6 +19,9 @@ namespace OpenYourTable.App
 		private void SettingsForm_Load(object sender, EventArgs e)
 		{
 			Init();
+
+			Version version = Assembly.GetEntryAssembly().GetName().Version;
+			this.Text += $" {version}";
 		}
 
 		#region Initialize
