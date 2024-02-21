@@ -37,39 +37,37 @@ namespace OpenYourTable.Core.Utils
 
 			foreach (var table in tableSpecifications)
 			{
+				SetTableCell(worksheet, startRow, (int)TABLE_CELL.SCHEMA, (int)TABLE_CELL.SCHEMA, isHeader: true);
 				SetTableCell(worksheet, startRow, (int)TABLE_CELL.NAME_FROM, (int)TABLE_CELL.NAME_TO, isHeader: true);
-				worksheet.Cells[startRow, (int)TABLE_CELL.NAME_FROM].Value = TABLE_CELL.NAME_FROM.GetDescription();
 				SetTableCell(worksheet, startRow, (int)TABLE_CELL.COMMENT_FROM, (int)TABLE_CELL.COMMENT_TO, isHeader: true);
+				worksheet.Cells[startRow, (int)TABLE_CELL.SCHEMA].Value = TABLE_CELL.SCHEMA.GetDescription();
+				worksheet.Cells[startRow, (int)TABLE_CELL.NAME_FROM].Value = TABLE_CELL.NAME_FROM.GetDescription();
 				worksheet.Cells[startRow, (int)TABLE_CELL.COMMENT_FROM].Value = TABLE_CELL.COMMENT_FROM.GetDescription();
 				startRow++;
 
+				SetTableCell(worksheet, startRow, (int)TABLE_CELL.SCHEMA, (int)TABLE_CELL.SCHEMA);
 				SetTableCell(worksheet, startRow, (int)TABLE_CELL.NAME_FROM, (int)TABLE_CELL.NAME_TO);
-				worksheet.Cells[startRow, (int)TABLE_CELL.NAME_FROM].Value = table.name;
 				SetTableCell(worksheet, startRow, (int)TABLE_CELL.COMMENT_FROM, (int)TABLE_CELL.COMMENT_TO);
+				worksheet.Cells[startRow, (int)TABLE_CELL.SCHEMA].Value = table.schema;
+				worksheet.Cells[startRow, (int)TABLE_CELL.NAME_FROM].Value = table.name;
 				worksheet.Cells[startRow, (int)TABLE_CELL.COMMENT_FROM].Value = table.comment;
 				startRow++;
 
-				worksheet.Column((int)COLUMN_CELL.NAME).Width = cellWidthDic[COLUMN_CELL.NAME];
-				worksheet.Column((int)COLUMN_CELL.DATA_TYPE).Width = cellWidthDic[COLUMN_CELL.DATA_TYPE];
-				worksheet.Column((int)COLUMN_CELL.LENGTH).Width = cellWidthDic[COLUMN_CELL.LENGTH];
-				worksheet.Column((int)COLUMN_CELL.NULLABLE).Width = cellWidthDic[COLUMN_CELL.NULLABLE];
-				worksheet.Column((int)COLUMN_CELL.INDEX).Width = cellWidthDic[COLUMN_CELL.INDEX];
-				worksheet.Column((int)COLUMN_CELL.DEFAULT).Width = cellWidthDic[COLUMN_CELL.DEFAULT];
-				worksheet.Column((int)COLUMN_CELL.COMMENT).Width = cellWidthDic[COLUMN_CELL.COMMENT];
-
-				SetColumnCell(worksheet, startRow, (int)COLUMN_CELL.NAME, (int)COLUMN_CELL.COMMENT, isHeader: true);
-				worksheet.Cells[startRow, (int)COLUMN_CELL.NAME].Value = COLUMN_CELL.NAME.GetDescription();
-				worksheet.Cells[startRow, (int)COLUMN_CELL.DATA_TYPE].Value = COLUMN_CELL.DATA_TYPE.GetDescription();
-				worksheet.Cells[startRow, (int)COLUMN_CELL.LENGTH].Value = COLUMN_CELL.LENGTH.GetDescription();
-				worksheet.Cells[startRow, (int)COLUMN_CELL.NULLABLE].Value = COLUMN_CELL.NULLABLE.GetDescription();
-				worksheet.Cells[startRow, (int)COLUMN_CELL.INDEX].Value = COLUMN_CELL.INDEX.GetDescription();
-				worksheet.Cells[startRow, (int)COLUMN_CELL.DEFAULT].Value = COLUMN_CELL.DEFAULT.GetDescription();
-				worksheet.Cells[startRow, (int)COLUMN_CELL.COMMENT].Value = COLUMN_CELL.COMMENT.GetDescription();
+				SetColumnCell(worksheet, startRow, (int)COLUMN_CELL.SEQ, (int)COLUMN_CELL.SEQ, ExcelHorizontalAlignment.Right, isHeader: true);
+				SetColumnCell(worksheet, startRow, (int)COLUMN_CELL.NAME, (int)COLUMN_CELL.COMMENT, ExcelHorizontalAlignment.Center, isHeader: true);
+				foreach (var cellWidthKv in cellWidthDic)
+				{
+					worksheet.Column((int)cellWidthKv.Key).Width = cellWidthKv.Value;
+					worksheet.Cells[startRow, (int)cellWidthKv.Key].Value = cellWidthKv.Key.GetDescription();
+				}
 				startRow++;
 
+				int seq = 1;
 				foreach (var column in table.columns)
 				{
-					SetColumnCell(worksheet, startRow, (int)COLUMN_CELL.NAME, (int)COLUMN_CELL.COMMENT);
+					SetColumnCell(worksheet, startRow, (int)COLUMN_CELL.SEQ, (int)COLUMN_CELL.SEQ, ExcelHorizontalAlignment.Right);
+					SetColumnCell(worksheet, startRow, (int)COLUMN_CELL.NAME, (int)COLUMN_CELL.COMMENT, ExcelHorizontalAlignment.Center);
+					worksheet.Cells[startRow, (int)COLUMN_CELL.SEQ].Value = seq++;
 					worksheet.Cells[startRow, (int)COLUMN_CELL.NAME].Value = column.name;
 					worksheet.Cells[startRow, (int)COLUMN_CELL.DATA_TYPE].Value = column.dataType;
 					worksheet.Cells[startRow, (int)COLUMN_CELL.LENGTH].Value = column.maxLength;
@@ -89,30 +87,30 @@ namespace OpenYourTable.Core.Utils
 			ExcelRange tableCellRange = worksheet.Cells[startRow, from, startRow, to];
 			tableCellRange.Merge = true;
 			tableCellRange.Style.Border.BorderAround(ExcelBorderStyle.Thin);
+			tableCellRange.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
 			if (isHeader)
 			{
 				tableCellRange.Style.Fill.PatternType = ExcelFillStyle.Solid;
 				tableCellRange.Style.Fill.BackgroundColor.SetColor(Color.AliceBlue);
 				tableCellRange.Style.Font.Bold = true;
-				tableCellRange.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 			}
 		}
 
-		private static void SetColumnCell(ExcelWorksheet worksheet, int startRow, int from, int to, bool isHeader = false)
+		private static void SetColumnCell(ExcelWorksheet worksheet, int startRow, int from, int to, ExcelHorizontalAlignment horizontalAlign, bool isHeader = false)
 		{
 			ExcelRange columnCellRange = worksheet.Cells[startRow, from, startRow, to]; 
 			columnCellRange.Style.Border.Top.Style = ExcelBorderStyle.Thin;
 			columnCellRange.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
 			columnCellRange.Style.Border.Left.Style = ExcelBorderStyle.Thin;
 			columnCellRange.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+			columnCellRange.Style.HorizontalAlignment = horizontalAlign;
 
 			if (isHeader)
 			{
 				columnCellRange.Style.Fill.PatternType = ExcelFillStyle.Solid;
 				columnCellRange.Style.Fill.BackgroundColor.SetColor(Color.AliceBlue);
 				columnCellRange.Style.Font.Bold = true;
-				columnCellRange.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 			}
 		}
 
@@ -120,6 +118,7 @@ namespace OpenYourTable.Core.Utils
 		{
 			return new Dictionary<COLUMN_CELL, int>()
 			{
+				{ COLUMN_CELL.SEQ, 10 },
 				{ COLUMN_CELL.NAME, 30 },
 				{ COLUMN_CELL.DATA_TYPE, 10 },
 				{ COLUMN_CELL.LENGTH, 10 },
