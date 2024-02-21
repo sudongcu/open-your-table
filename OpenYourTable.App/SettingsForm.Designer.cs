@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsForm));
 			panel2 = new Panel();
 			cb_type = new ComboBox();
 			label6 = new Label();
@@ -217,6 +218,7 @@
 			Controls.Add(panel2);
 			ForeColor = SystemColors.WindowText;
 			FormBorderStyle = FormBorderStyle.FixedSingle;
+			Icon = (Icon)resources.GetObject("$this.Icon");
 			Name = "SettingsForm";
 			StartPosition = FormStartPosition.CenterScreen;
 			Text = "Open Your Table";

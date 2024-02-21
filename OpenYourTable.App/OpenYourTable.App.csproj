@@ -6,7 +6,13 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <ApplicationIcon>oyt.ico</ApplicationIcon>
+    <AssemblyName>OpenYourTable</AssemblyName>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="oyt.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
