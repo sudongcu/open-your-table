@@ -1,8 +1,8 @@
 ﻿using OpenYourTable.Core.Utils;
 using OpenYourTable.Infra.Repositories;
+using OpenYourTable.Model;
 using OpenYourTable.Model.DataFetch;
 using OpenYourTable.Model.Entities;
-using System;
 
 namespace OpenYourTable.Core.Services
 {
@@ -42,13 +42,11 @@ namespace OpenYourTable.Core.Services
 
 		public byte[]? GenerateSpecifications(List<string> tableList)
 		{
-			byte[]? specificationBytes = null;
-
 			var entityTableSpecifications = _dataRepository.SelectTableSpecification(tableList);
 
 			var tableSpecifications = this.GetTableSpecificationList(tableList, entityTableSpecifications);
 
-			specificationBytes = ExcelHelper.CreateExcelFile(tableSpecifications);
+			byte[]? specificationBytes = ExcelHelper.CreateExcelFile(tableSpecifications);
 
 			return specificationBytes;
 		}
@@ -59,15 +57,17 @@ namespace OpenYourTable.Core.Services
 			
 			foreach (var table in tableList)
 			{
-				var tableSpecification = new TableSpecification();
-
 				var entityItems = entityTableSpecifications.Where(w => w.table_name == table).Select(s => s).ToArray();
 				if (entityItems is null || entityItems.Length == 0)
 					continue;
 
-				tableSpecification.name = entityItems[0].table_name;
-				tableSpecification.comment = entityItems[0].table_comment;
-				tableSpecification.columns = [];
+				var tableSpecification = new TableSpecification
+				{
+					schema = DBConnectionInfo.schema,
+					name = entityItems[0].table_name,
+					comment = entityItems[0].table_comment,
+					columns = []
+				};
 
 				foreach (var entityItem in entityItems)
 				{
