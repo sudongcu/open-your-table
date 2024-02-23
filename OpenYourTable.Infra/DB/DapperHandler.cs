@@ -1,6 +1,6 @@
 ﻿using Dapper;
-using OpenYourTable.Model;
-using OpenYourTable.Model.Enums;
+using OpenYourTable.Obj;
+using OpenYourTable.Obj.Enums;
 
 namespace OpenYourTable.Infra.DB
 {

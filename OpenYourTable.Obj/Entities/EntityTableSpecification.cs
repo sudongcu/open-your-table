@@ -1,4 +1,4 @@
-﻿namespace OpenYourTable.Model.Entities
+﻿namespace OpenYourTable.Obj.Entities
 {
 	public class EntityTableSpecification
 	{

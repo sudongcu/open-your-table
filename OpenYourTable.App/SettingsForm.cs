@@ -1,6 +1,6 @@
 using OpenYourTable.Core.Services;
-using OpenYourTable.Model;
-using OpenYourTable.Model.Enums;
+using OpenYourTable.Obj;
+using OpenYourTable.Obj.Enums;
 using System.Reflection;
 
 namespace OpenYourTable.App

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace OpenYourTable.Model.Enums
+namespace OpenYourTable.Obj.Enums
 {
 	public static class EnumExtension
 	{

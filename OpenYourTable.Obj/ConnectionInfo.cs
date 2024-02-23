@@ -1,6 +1,6 @@
-﻿using OpenYourTable.Model.Enums;
+﻿using OpenYourTable.Obj.Enums;
 
-namespace OpenYourTable.Model
+namespace OpenYourTable.Obj
 {
 	public class ConnectionInfo
 	{

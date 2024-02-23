@@ -1,4 +1,4 @@
-﻿using OpenYourTable.Model.Enums;
+﻿using OpenYourTable.Obj.Enums;
 
 namespace OpenYourTable.Core.Utils
 {

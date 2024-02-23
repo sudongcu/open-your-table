@@ -1,6 +1,6 @@
 ﻿using OpenYourTable.Infra.DB;
-using OpenYourTable.Model;
-using OpenYourTable.Model.Entities;
+using OpenYourTable.Obj;
+using OpenYourTable.Obj.Entities;
 
 namespace OpenYourTable.Infra.Repositories
 {

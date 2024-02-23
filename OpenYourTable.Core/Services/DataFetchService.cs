@@ -1,12 +1,12 @@
 ﻿using OpenYourTable.Core.Utils;
 using OpenYourTable.Infra.Repositories;
-using OpenYourTable.Model;
-using OpenYourTable.Model.DataFetch;
-using OpenYourTable.Model.Entities;
+using OpenYourTable.Obj;
+using OpenYourTable.Obj.Entities;
+using OpenYourTable.Obj.Models.Data;
 
 namespace OpenYourTable.Core.Services
 {
-	public class DataFetchService
+    public class DataFetchService
 	{
 		private readonly DataRepository _dataRepository;
 

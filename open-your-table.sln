@@ -5,11 +5,11 @@ VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenYourTable.App", "OpenYourTable.App\OpenYourTable.App.csproj", "{D2927064-5D0D-4BD1-994C-F0A96BD64899}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenYourTable.Core", "OpenYourTable.Core\OpenYourTable.Core.csproj", "{562E0FE2-7F97-4E5A-8747-153A1B689293}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenYourTable.Core", "OpenYourTable.Core\OpenYourTable.Core.csproj", "{562E0FE2-7F97-4E5A-8747-153A1B689293}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenYourTable.Infra", "OpenYourTable.Infra\OpenYourTable.Infra.csproj", "{4D696005-8F51-4FB0-ACDC-FCF017399FD5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenYourTable.Infra", "OpenYourTable.Infra\OpenYourTable.Infra.csproj", "{4D696005-8F51-4FB0-ACDC-FCF017399FD5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenYourTable.Model", "OpenYourTable.Model\OpenYourTable.Model.csproj", "{6206A618-E225-4017-B4B4-4404E4956824}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenYourTable.Obj", "OpenYourTable.Obj\OpenYourTable.Obj.csproj", "{3332B1A2-2812-4D9B-BA84-DB489FAF2981}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{4D696005-8F51-4FB0-ACDC-FCF017399FD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D696005-8F51-4FB0-ACDC-FCF017399FD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D696005-8F51-4FB0-ACDC-FCF017399FD5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6206A618-E225-4017-B4B4-4404E4956824}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6206A618-E225-4017-B4B4-4404E4956824}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6206A618-E225-4017-B4B4-4404E4956824}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6206A618-E225-4017-B4B4-4404E4956824}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3332B1A2-2812-4D9B-BA84-DB489FAF2981}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3332B1A2-2812-4D9B-BA84-DB489FAF2981}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3332B1A2-2812-4D9B-BA84-DB489FAF2981}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3332B1A2-2812-4D9B-BA84-DB489FAF2981}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

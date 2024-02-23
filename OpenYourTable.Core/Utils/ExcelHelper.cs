@@ -1,14 +1,14 @@
 ﻿using NUnit.Framework.Internal.Execution;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
-using OpenYourTable.Model.DataFetch;
-using OpenYourTable.Model.Enums;
+using OpenYourTable.Obj.Enums;
+using OpenYourTable.Obj.Models.Data;
 using System.Drawing;
 using System.Reflection.PortableExecutable;
 
 namespace OpenYourTable.Core.Utils
 {
-	public static class ExcelHelper
+    public static class ExcelHelper
 	{
 
 		public static byte[] CreateExcelFile(List<TableSpecification> tableSpecifications)
