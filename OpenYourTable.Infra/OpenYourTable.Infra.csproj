@@ -10,10 +10,11 @@
     <PackageReference Include="Dapper" Version="2.1.28" />
     <PackageReference Include="MySql.Data" Version="8.3.0" />
     <PackageReference Include="NUnit" Version="4.0.1" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OpenYourTable.Model\OpenYourTable.Model.csproj" />
+    <ProjectReference Include="..\OpenYourTable.Obj\OpenYourTable.Obj.csproj" />
   </ItemGroup>
 
 </Project>

@@ -12,7 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\OpenYourTable.Infra\OpenYourTable.Infra.csproj" />
-    <ProjectReference Include="..\OpenYourTable.Model\OpenYourTable.Model.csproj" />
+    <ProjectReference Include="..\OpenYourTable.Obj\OpenYourTable.Obj.csproj" />
   </ItemGroup>
 
 </Project>

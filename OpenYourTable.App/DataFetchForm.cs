@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 using OpenYourTable.Core.Services;
-using OpenYourTable.Model;
+using OpenYourTable.Obj;
 using System.Reflection;
 
 namespace OpenYourTable.App

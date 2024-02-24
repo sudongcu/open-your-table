@@ -72,6 +72,7 @@
 			// 
 			// cb_type
 			// 
+			cb_type.AccessibleName = "Database Type";
 			cb_type.BackColor = Color.White;
 			cb_type.Font = new Font("Calibri", 12F);
 			cb_type.ForeColor = Color.DodgerBlue;
@@ -80,6 +81,8 @@
 			cb_type.Name = "cb_type";
 			cb_type.Size = new Size(188, 27);
 			cb_type.TabIndex = 12;
+			cb_type.Tag = "";
+			cb_type.SelectedIndexChanged += cb_type_SelectedIndexChanged;
 			cb_type.Click += cb_type_Click;
 			// 
 			// label6
@@ -110,12 +113,14 @@
 			// 
 			// tb_schema
 			// 
+			tb_schema.AccessibleName = "Schema";
 			tb_schema.Font = new Font("Calibri", 12F);
 			tb_schema.ForeColor = Color.DodgerBlue;
 			tb_schema.Location = new Point(511, 173);
 			tb_schema.Name = "tb_schema";
 			tb_schema.Size = new Size(189, 27);
 			tb_schema.TabIndex = 9;
+			tb_schema.Tag = "";
 			// 
 			// label5
 			// 
@@ -130,6 +135,7 @@
 			// 
 			// tb_password
 			// 
+			tb_password.AccessibleName = "Password";
 			tb_password.Font = new Font("Calibri", 12F);
 			tb_password.ForeColor = Color.DodgerBlue;
 			tb_password.Location = new Point(202, 127);
@@ -151,6 +157,7 @@
 			// 
 			// tb_id
 			// 
+			tb_id.AccessibleName = "ID";
 			tb_id.Font = new Font("Calibri", 12F);
 			tb_id.ForeColor = Color.DodgerBlue;
 			tb_id.Location = new Point(202, 81);
@@ -171,12 +178,14 @@
 			// 
 			// tb_port
 			// 
+			tb_port.AccessibleName = "Port";
 			tb_port.Font = new Font("Calibri", 12F);
 			tb_port.ForeColor = Color.DodgerBlue;
 			tb_port.Location = new Point(596, 35);
 			tb_port.Name = "tb_port";
 			tb_port.Size = new Size(104, 27);
 			tb_port.TabIndex = 3;
+			tb_port.Tag = "";
 			// 
 			// label2
 			// 
@@ -191,6 +200,7 @@
 			// 
 			// tb_host
 			// 
+			tb_host.AccessibleName = "Host";
 			tb_host.Font = new Font("Calibri", 12F);
 			tb_host.ForeColor = Color.DodgerBlue;
 			tb_host.Location = new Point(202, 35);
