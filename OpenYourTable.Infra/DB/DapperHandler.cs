@@ -4,24 +4,18 @@ using OpenYourTable.Obj.Enums;
 
 namespace OpenYourTable.Infra.DB
 {
-	internal class DapperHandler
+	public class DapperHandler
 	{
 		private readonly DBHandler _dbHandler;
 
-		public DapperHandler()
+		protected DapperHandler(DB_TYPE dbType)
 		{
-			if (DBConnectionInfo.dbType == DB_TYPE.MySQL)
+			_dbHandler = dbType switch
 			{
-				_dbHandler = new MySqlHandler();
-			}
-			else if (DBConnectionInfo.dbType == DB_TYPE.MSSQL)
-			{
-				throw new Exception("MSSQL is not yet defined.");
-			}
-			else
-			{
-				throw new Exception("DB Type is somethign wrong.");
-			}
+				DB_TYPE.MSSQL => new MSSQLHandler(),
+				DB_TYPE.MySql => new MySqlHandler(),
+				_ => new MySqlHandler()
+			};
 
 			_dbHandler.SetConnection(DBConnectionInfo.connectionString);
 		}
@@ -35,7 +29,8 @@ namespace OpenYourTable.Infra.DB
 				return queryResult.AsList();
 			}
 		}
-		public T QueryFirstOrDefault<T>(string sql, Dictionary<string, object>? parameters = null)
+
+		public T? QueryFirstOrDefault<T>(string sql, Dictionary<string, object>? parameters = null)
 		{
 			using (var connection = _dbHandler.GetConnection())
 			{

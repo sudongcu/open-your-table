@@ -1,3 +1,5 @@
+using Microsoft.Extensions.DependencyInjection;
+using OpenYourTable.App.Configs;
 using OpenYourTable.Core.Services;
 using OpenYourTable.Obj;
 using OpenYourTable.Obj.Enums;
@@ -7,13 +9,9 @@ namespace OpenYourTable.App
 {
 	public partial class SettingsForm : Form
 	{
-		private readonly DataFetchService _dataFetchService;
-
-		public SettingsForm(DataFetchService dataFetchService)
+		public SettingsForm()
 		{
 			InitializeComponent();
-
-			_dataFetchService = dataFetchService;
 		}
 
 		private void SettingsForm_Load(object sender, EventArgs e)
@@ -49,7 +47,7 @@ namespace OpenYourTable.App
 		private void InItUIComboBox()
 		{
 			var dbType = GetDBTypeDictionary();
-			
+
 			cb_type.DisplayMember = "Value";
 			cb_type.ValueMember = "Key";
 			cb_type.DataSource = new BindingSource(dbType, null);
@@ -62,29 +60,49 @@ namespace OpenYourTable.App
 		{
 			var dbTypeDic = new Dictionary<string, string>
 			{
-				{ nameof(DB_TYPE.MySQL), DB_TYPE.MySQL.GetDescription() },
+				{ nameof(DB_TYPE.MySql), DB_TYPE.MySql.GetDescription() },
 				{ nameof(DB_TYPE.MSSQL), DB_TYPE.MSSQL.GetDescription() }
 			};
 
 			return dbTypeDic;
 		}
 
-		private bool IsTextBoxEmpty()
+		private bool IsTextBoxEmpty(out string field)
 		{
-			TextBox[] textBoxes = [tb_host, tb_id, tb_password, tb_schema, tb_port];
-
+			field = string.Empty;
+			
+			TextBox[] textBoxes = [tb_host, tb_id, tb_password, tb_schema];
 			foreach (TextBox textBox in textBoxes)
 			{
 				if (string.IsNullOrWhiteSpace(textBox.Text))
+				{
+					field = textBox.AccessibleName ?? string.Empty;
 					return false;
+				}
 			}
 
 			return true;
 		}
 
-		private void ShowOPEN()
+		private void OPEN(ConnectionInfo conn)
 		{
-			var dataFetchForm = new DataFetchForm(_dataFetchService);
+			// Set Connection
+			DBConnectionInfo.connectionString = conn.ToString();
+			DBConnectionInfo.schema = conn.schema;
+
+			// Dependency Injection
+			var services = new ServiceCollection()
+								.ConfigureDI()
+								.ConfigureConnectionDI(conn.dbType);
+			var serviceProvider = services.BuildServiceProvider();
+
+			var dataFetchService = serviceProvider.GetRequiredService<DataFetchService>();
+
+			// Check Available Connection
+			dataFetchService.CheckDBConnection();
+
+			// Switch to DataFetchForm
+			var dataFetchForm = new DataFetchForm(dataFetchService);
 			this.Hide();
 			dataFetchForm.ShowDialog();
 			this.Close();
@@ -92,34 +110,39 @@ namespace OpenYourTable.App
 
 		private void btn_open_Click(object sender, EventArgs e)
 		{
-			if (IsTextBoxEmpty() == false)
+			if (IsTextBoxEmpty(out string field) == false)
 			{
-				MessageBox.Show("Please fill in all input fields...", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show($"Please fill in input field {field}.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
 			}
 
-			var connectionInfo = new ConnectionInfo()
+			var conn = new ConnectionInfo()
 			{
 				host = tb_host.Text,
 				port = tb_port.Text,
 				id = tb_id.Text,
 				password = tb_password.Text,
-				schema = tb_schema.Text
+				schema = tb_schema.Text,
+				dbType = (DB_TYPE)Enum.Parse(typeof(DB_TYPE), cb_type.SelectedValue.ToString())
 			};
 
-			DBConnectionInfo.connectionString = connectionInfo.ToString();
-			DBConnectionInfo.dbType = (DB_TYPE)Enum.Parse(typeof(DB_TYPE), cb_type.SelectedValue.ToString());
-			DBConnectionInfo.schema = connectionInfo.schema;
-
-			// Check Available Connection
-			_dataFetchService.CheckDBConnection();
-			
-			ShowOPEN();
+			OPEN(conn);
 		}
 
 		private void cb_type_Click(object sender, EventArgs e)
 		{
 			cb_type.DroppedDown = true;
+		}
+
+		private void cb_type_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			var comboBox = (ComboBox)sender;
+			
+			KeyValuePair<string, string> item = (KeyValuePair<string, string>)comboBox.SelectedItem;
+			if (item.Key == nameof(DB_TYPE.MySql))
+				tb_port.Text = $"{3306}";
+			else if (item.Key == nameof(DB_TYPE.MSSQL))
+				tb_port.Text = $"{1433}";
 		}
 	}
 }

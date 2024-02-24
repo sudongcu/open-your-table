@@ -1,4 +1,5 @@
-﻿using OpenYourTable.Core.Utils;
+﻿using NUnit.Framework;
+using OpenYourTable.Core.Utils;
 using OpenYourTable.Infra.Repositories;
 using OpenYourTable.Obj;
 using OpenYourTable.Obj.Entities;
@@ -6,11 +7,11 @@ using OpenYourTable.Obj.Models.Data;
 
 namespace OpenYourTable.Core.Services
 {
-    public class DataFetchService
+	public class DataFetchService
 	{
-		private readonly DataRepository _dataRepository;
+		private readonly IRepository _dataRepository;
 
-		public DataFetchService(DataRepository dataRepository)
+		public DataFetchService(IRepository dataRepository)
 		{
 			_dataRepository = dataRepository;
 		}
@@ -24,15 +25,21 @@ namespace OpenYourTable.Core.Services
 				if (isHealthy == false)
 					throw new Exception("Connection Information is wrong.");
 			}
-			catch
+			catch (Exception ex)
 			{
+#if DEBUG
+
+				throw;
+
+#endif
+
 				throw new Exception("Connection Information is wrong.");
 			}
 		}
 
 		public List<string> GetTableSchemas()
 		{
-			var entityTables = _dataRepository.SelectTableList();
+			var entityTables = _dataRepository.SelectTables();
 
 			if (entityTables.Count == 0)
 				return Enumerable.Empty<string>().ToList();
@@ -42,7 +49,7 @@ namespace OpenYourTable.Core.Services
 
 		public byte[]? GenerateSpecifications(List<string> tableList)
 		{
-			var entityTableSpecifications = _dataRepository.SelectTableSpecification(tableList);
+			var entityTableSpecifications = _dataRepository.SelectTableSpecification<EntityTableSpecification>(tableList);
 
 			var tableSpecifications = this.GetTableSpecificationList(tableList, entityTableSpecifications);
 
@@ -54,7 +61,7 @@ namespace OpenYourTable.Core.Services
 		private List<TableSpecification> GetTableSpecificationList(List<string> tableList, List<EntityTableSpecification> entityTableSpecifications)
 		{
 			var tableSpecifications = new List<TableSpecification>();
-			
+
 			foreach (var table in tableList)
 			{
 				var entityItems = entityTableSpecifications.Where(w => w.table_name == table).Select(s => s).ToArray();
@@ -76,8 +83,8 @@ namespace OpenYourTable.Core.Services
 						name = entityItem.column_name,
 						dataType = entityItem.data_type,
 						maxLength = entityItem.max_length.ToString() ?? string.Empty,
-						nullable = entityItem.is_nullable ? "Y" : string.Empty,
-						index = DataHelper.GenerateIndexValue(entityItem.index_name, entityItem.non_unique),
+						nullable = entityItem.is_nullable == 1 ? "Y" : string.Empty,
+						index = DataHelper.GenerateIndexValue(entityItem.is_primary, entityItem.index_name, entityItem.non_unique),
 						defaultValue = DataHelper.GenerateDefaultValue(entityItem.default_value, entityItem.default_extra),
 						comment = entityItem.comment
 					});

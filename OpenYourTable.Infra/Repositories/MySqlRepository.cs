@@ -1,32 +1,24 @@
 ﻿using OpenYourTable.Infra.DB;
 using OpenYourTable.Obj;
-using OpenYourTable.Obj.Entities;
+using OpenYourTable.Obj.Enums;
 
 namespace OpenYourTable.Infra.Repositories
 {
-	public class DataRepository
+	public class MySqlRepository : DapperHandler, IRepository
 	{
-		public DataRepository()
-		{
-
-		}
+		public MySqlRepository() : base(DB_TYPE.MySql) { }
 
 		public bool SelectHealthy()
 		{
-			var dapperHandler = new DapperHandler();
+			string queryStr = "SELECT 1 as is_healthy";
 
-			string queryStr = "SELECT true as is_healthy";
+			var healthy = base.QueryFirstOrDefault<short?>(queryStr);
 
-			var healthy = dapperHandler.QueryFirstOrDefault<bool>(queryStr);
-
-			return healthy;
+			return healthy is not null;
 		}
 
-
-		public List<string> SelectTableList()
+		public List<string> SelectTables()
 		{
-			var dapperHandler = new DapperHandler();
-			
 			var parameters = new Dictionary<string, object>()
 			{
 				{ "@schema", DBConnectionInfo.schema }
@@ -34,21 +26,19 @@ namespace OpenYourTable.Infra.Repositories
 
 			string queryStr = @"SELECT TABLE_NAME AS table_name
 								FROM INFORMATION_SCHEMA.TABLES
-								WHERE TABLE_SCHEMA = @schema ; ";
+								WHERE TABLE_SCHEMA = @schema ;";
 
-			var entityTableNames = dapperHandler.Query<string>(queryStr, parameters);
+			var entityTableNames = base.Query<string>(queryStr, parameters);
 
 			return entityTableNames;
 		}
 
-		public List<EntityTableSpecification> SelectTableSpecification(List<string> tableList)
+		public List<TEntity> SelectTableSpecification<TEntity>(List<string> tables)
 		{
-			var dapperHandler = new DapperHandler();
-
 			var parameters = new Dictionary<string, object>()
 			{
 				{ "@schema", DBConnectionInfo.schema },
-				{ "@table_list", tableList }
+				{ "@tables", tables }
 			};
 
 			string queryStr = @"SELECT 
@@ -56,14 +46,16 @@ namespace OpenYourTable.Infra.Repositories
 									t.TABLE_COMMENT as table_comment,
 									c.COLUMN_NAME AS column_name,
 									c.DATA_TYPE AS data_type,
-									c.CHARACTER_MAXIMUM_LENGTH AS max_length,
-									c.COLUMN_KEY AS column_key,
-									CASE WHEN c.IS_NULLABLE = 'YES' THEN TRUE ELSE FALSE END AS is_nullable,
+									CASE WHEN c.NUMERIC_PRECISION IS NOT NULL THEN c.NUMERIC_PRECISION 
+										 WHEN c.DATETIME_PRECISION IS NOT NULL THEN c.DATETIME_PRECISION 
+	 									 ELSE c.CHARACTER_MAXIMUM_LENGTH
+									END AS max_length,
+									CASE WHEN c.IS_NULLABLE = 'YES' THEN 1 ELSE 0 END AS nullable,
 									c.COLUMN_DEFAULT AS default_value,
 									c.EXTRA AS default_extra,
 									c.COLUMN_COMMENT AS comment,
+									CASE WHEN s.INDEX_NAME = 'PRIMARY' THEN 1 ELSE 0 END AS is_primary,
 									s.INDEX_NAME AS index_name,
-									s.SEQ_IN_INDEX AS seq_in_index,
 									s.NON_UNIQUE AS non_unique
 								FROM information_schema.tables t
 									JOIN information_schema.columns c 
@@ -72,10 +64,10 @@ namespace OpenYourTable.Infra.Repositories
 										ON t.TABLE_NAME = s.TABLE_NAME 
 											AND c.COLUMN_NAME = s.COLUMN_NAME
 								WHERE t.TABLE_SCHEMA = @schema
-									AND t.TABLE_NAME IN @table_list
-								ORDER BY t.TABLE_NAME ASC, c.ORDINAL_POSITION ASC ; ";
+									AND t.TABLE_NAME IN @tables
+								ORDER BY t.TABLE_NAME ASC, c.ORDINAL_POSITION ASC ;";
 
-			var entityTableSpecification = dapperHandler.Query<EntityTableSpecification>(queryStr, parameters);
+			var entityTableSpecification = base.Query<TEntity>(queryStr, parameters);
 
 			return entityTableSpecification;
 		}

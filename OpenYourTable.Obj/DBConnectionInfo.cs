@@ -6,8 +6,6 @@ namespace OpenYourTable.Obj
 	{
 		public static string connectionString { get; set; }
 
-		public static DB_TYPE dbType { get; set; }
-
 		public static string schema { get; set; }
 	}
 }

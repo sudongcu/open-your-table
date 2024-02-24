@@ -4,9 +4,9 @@ namespace OpenYourTable.Core.Utils
 {
 	public static class DataHelper
 	{
-		public static string GenerateIndexValue(string? indexName, int? nonUnique)
+		public static string GenerateIndexValue(int isPrimary, string? indexName, int? nonUnique)
 		{
-			if (indexName == nameof(INDEX_NAME.PRIMARY))
+			if (isPrimary == 1)
 				return INDEX_NAME.PRIMARY.GetDescription();
 			else
 			{
