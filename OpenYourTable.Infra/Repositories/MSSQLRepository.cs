@@ -3,7 +3,7 @@ using OpenYourTable.Obj.Enums;
 
 namespace OpenYourTable.Infra.Repositories
 {
-	public class MSSQLRepository : DapperHandler, IRepository
+	public class MSSQLRepository : DapperHandler, IDataRepository
 	{
 		public MSSQLRepository() : base(DB_TYPE.MSSQL) { }
 

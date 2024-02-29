@@ -5,7 +5,7 @@ using OpenYourTable.Obj.Enums;
 
 namespace OpenYourTable.App.Configs
 {
-	public static class ServiceCollectionExtensionConfig
+	public static class ServiceCollectionExtension
 	{
 		public static IServiceCollection ConfigureDI(this IServiceCollection services)
 		{
@@ -19,11 +19,11 @@ namespace OpenYourTable.App.Configs
 		{
 			if (dbType == DB_TYPE.MSSQL)
 			{
-				services.AddSingleton<IRepository, MSSQLRepository>();
+				services.AddSingleton<IDataRepository, MSSQLRepository>();
 			}
 			else
 			{
-				services.AddSingleton<IRepository, MySqlRepository>();
+				services.AddSingleton<IDataRepository, MySqlRepository>();
 			}
 
 			return services;

@@ -1,6 +1,6 @@
 ﻿namespace OpenYourTable.Infra.Repositories
 {
-	public interface IRepository
+	public interface IDataRepository
 	{
 		public bool SelectHealthy();
 

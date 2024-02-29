@@ -1,5 +1,4 @@
-﻿using NUnit.Framework;
-using OpenYourTable.Core.Utils;
+﻿using OpenYourTable.Core.Utils;
 using OpenYourTable.Infra.Repositories;
 using OpenYourTable.Obj;
 using OpenYourTable.Obj.Entities;
@@ -9,9 +8,9 @@ namespace OpenYourTable.Core.Services
 {
 	public class DataFetchService
 	{
-		private readonly IRepository _dataRepository;
+		private readonly IDataRepository _dataRepository;
 
-		public DataFetchService(IRepository dataRepository)
+		public DataFetchService(IDataRepository dataRepository)
 		{
 			_dataRepository = dataRepository;
 		}

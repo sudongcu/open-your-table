@@ -4,7 +4,7 @@ using OpenYourTable.Obj.Enums;
 
 namespace OpenYourTable.Infra.Repositories
 {
-	public class MySqlRepository : DapperHandler, IRepository
+	public class MySqlRepository : DapperHandler, IDataRepository
 	{
 		public MySqlRepository() : base(DB_TYPE.MySql) { }
 

@@ -1,6 +1,4 @@
-﻿using OpenYourTable.Obj.Enums;
-
-namespace OpenYourTable.Obj
+﻿namespace OpenYourTable.Obj
 {
 	public class DBConnectionInfo
 	{
