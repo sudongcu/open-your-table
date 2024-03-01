@@ -107,6 +107,7 @@
 			filter_group.TabIndex = 12;
 			filter_group.TabStop = false;
 			filter_group.Text = "Filter";
+			filter_group.Visible = false;
 			// 
 			// panel_filter
 			// 
