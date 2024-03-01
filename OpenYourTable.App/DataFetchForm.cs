@@ -77,8 +77,10 @@ namespace OpenYourTable.App
 		{
 			foreach (TreeNode node in nodeCollection)
 			{
-				if (node.Checked)
+				if (node.Checked && node.Text != DBConnectionInfo.schema)
+				{
 					nodes.Add(node.Text);
+				}
 
 				if (node.Nodes.Count > 0)
 					AssignNodesToList(node.Nodes, ref nodes);

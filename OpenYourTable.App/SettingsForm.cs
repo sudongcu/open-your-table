@@ -58,7 +58,7 @@ namespace OpenYourTable.App
 
 		private Dictionary<string, string> GetDBTypeDictionary()
 		{
-			var dbTypeDic = new Dictionary<string, string>
+			Dictionary<string, string> dbTypeDic = new()
 			{
 				{ nameof(DB_TYPE.MySql), DB_TYPE.MySql.GetDescription() },
 				{ nameof(DB_TYPE.MSSQL), DB_TYPE.MSSQL.GetDescription() }
@@ -102,7 +102,7 @@ namespace OpenYourTable.App
 			dataFetchService.CheckDBConnection();
 
 			// Switch to DataFetchForm
-			var dataFetchForm = new DataFetchForm(dataFetchService);
+			DataFetchForm dataFetchForm = new(dataFetchService);
 			this.Hide();
 			dataFetchForm.ShowDialog();
 			this.Close();
@@ -116,7 +116,7 @@ namespace OpenYourTable.App
 				return;
 			}
 
-			var conn = new ConnectionInfo()
+			ConnectionInfo conn = new()
 			{
 				host = tb_host.Text,
 				port = tb_port.Text,
