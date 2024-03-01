@@ -4,9 +4,9 @@ using OpenYourTable.Obj.Enums;
 
 namespace OpenYourTable.Infra.Repositories
 {
-	public class MySqlRepository : DapperHandler, IDataRepository
+	public class MySQLRepository : DapperHandler, IDataRepository
 	{
-		public MySqlRepository() : base(DB_TYPE.MySql) { }
+		public MySQLRepository() : base(DB_TYPE.MySQL) { }
 
 		public bool SelectHealthy()
 		{

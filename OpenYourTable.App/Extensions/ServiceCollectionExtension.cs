@@ -23,7 +23,7 @@ namespace OpenYourTable.App.Configs
 			}
 			else
 			{
-				services.AddSingleton<IDataRepository, MySqlRepository>();
+				services.AddSingleton<IDataRepository, MySQLRepository>();
 			}
 
 			return services;

@@ -13,8 +13,8 @@ namespace OpenYourTable.Infra.DB
 			_dbHandler = dbType switch
 			{
 				DB_TYPE.MSSQL => new MSSQLHandler(),
-				DB_TYPE.MySql => new MySqlHandler(),
-				_ => new MySqlHandler()
+				DB_TYPE.MySQL => new MySQLHandler(),
+				_ => new MySQLHandler()
 			};
 
 			_dbHandler.SetConnection(DBConnectionInfo.connectionString);

@@ -5,7 +5,7 @@ namespace OpenYourTable.Obj.Enums
 	public enum DB_TYPE
 	{
 		[Description("MySql or MariaDB")]
-		MySql = 0,
+		MySQL = 0,
 
 		[Description("Microsoft SQL Server")]
 		MSSQL = 1

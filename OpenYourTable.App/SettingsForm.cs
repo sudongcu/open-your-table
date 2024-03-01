@@ -60,7 +60,7 @@ namespace OpenYourTable.App
 		{
 			Dictionary<string, string> dbTypeDic = new()
 			{
-				{ nameof(DB_TYPE.MySql), DB_TYPE.MySql.GetDescription() },
+				{ nameof(DB_TYPE.MySQL), DB_TYPE.MySQL.GetDescription() },
 				{ nameof(DB_TYPE.MSSQL), DB_TYPE.MSSQL.GetDescription() }
 			};
 
@@ -139,7 +139,7 @@ namespace OpenYourTable.App
 			var comboBox = (ComboBox)sender;
 			
 			KeyValuePair<string, string> item = (KeyValuePair<string, string>)comboBox.SelectedItem;
-			if (item.Key == nameof(DB_TYPE.MySql))
+			if (item.Key == nameof(DB_TYPE.MySQL))
 				tb_port.Text = $"{3306}";
 			else if (item.Key == nameof(DB_TYPE.MSSQL))
 				tb_port.Text = $"{1433}";
