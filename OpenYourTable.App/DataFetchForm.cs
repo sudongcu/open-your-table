@@ -1,7 +1,6 @@
 ﻿using NUnit.Framework;
 using OpenYourTable.Core.Services;
 using OpenYourTable.Obj;
-using System.Linq;
 using System.Reflection;
 
 namespace OpenYourTable.App
@@ -12,7 +11,8 @@ namespace OpenYourTable.App
 		private bool isLoaded = false;
 		private bool isCheckProcessing = false;
 
-		private List<Control> filterControlList;
+		private List<Control> filterControls;
+		private int filterControlLimit = 13;
 		
 		public DataFetchForm(DataFetchService dataFetchService)
 		{
@@ -46,7 +46,7 @@ namespace OpenYourTable.App
 
 		private void InitFilterGroup()
 		{
-			filterControlList = [];
+			filterControls = [];
 		}
 
 		#endregion / Initialize
@@ -61,9 +61,9 @@ namespace OpenYourTable.App
 			TreeNode[] childNodes = new TreeNode[tables.Count];
 
 			int idx = 0;
-			foreach (var tableName in tables)
+			foreach (var table in tables)
 			{
-				childNodes[idx++] = new TreeNode(tableName)
+				childNodes[idx++] = new TreeNode(table)
 				{
 					Checked = true
 				};
@@ -73,15 +73,106 @@ namespace OpenYourTable.App
 			parentNode.Expand();
 		}
 
-		private void AssignNodesToList(TreeNodeCollection nodes, ref List<string> nodeList)
+		private void AssignNodesToList(TreeNodeCollection nodeCollection, ref List<string> nodes)
 		{
-			foreach (TreeNode node in nodes)
+			foreach (TreeNode node in nodeCollection)
 			{
 				if (node.Checked)
-					nodeList.Add(node.Text);
+					nodes.Add(node.Text);
 
 				if (node.Nodes.Count > 0)
-					AssignNodesToList(node.Nodes, ref nodeList);
+					AssignNodesToList(node.Nodes, ref nodes);
+			}
+		}
+
+		private void AssignFilterToDictionary(ref Dictionary<string, string[]> filterDic)
+		{
+			filterDic.Add(tb_title.Text, [.. tb_condition.Text.Split(',').OrderByDescending(o => o)]);
+
+			foreach (var controlGroup in filterControls.GroupBy(g => g.Tag).Select(s => s))
+			{
+				if (filterDic.ContainsKey(controlGroup.ElementAt(1).Text))
+					throw new Exception($"Duplicate titles exist. {controlGroup.ElementAt(1).Text}");
+
+				filterDic.Add(controlGroup.ElementAt(1).Text, [.. controlGroup.ElementAt(2).Text.Split(',').OrderByDescending(o => o)]);
+			}
+		}
+
+		private void AddFilter()
+		{
+			int addY = 43;
+			int buttonY = btn_plus.Location.Y + addY;
+			int titleY = tb_title.Location.Y + addY;
+			int conditionY = tb_condition.Location.Y + addY;
+
+			if (filterControls.Count >= 3)
+			{
+				buttonY = filterControls[filterControls.Count - 3].Location.Y + addY;
+				titleY = filterControls[filterControls.Count - 2].Location.Y + addY;
+				conditionY = filterControls[filterControls.Count - 1].Location.Y + addY;
+			}
+
+			Guid tagGuid = Guid.NewGuid();
+
+			Button btn_minus = new();
+			btn_minus.AccessibleName = "minus";
+			btn_minus.FlatAppearance.BorderSize = btn_plus.FlatAppearance.BorderSize;
+			btn_minus.FlatStyle = btn_plus.FlatStyle;
+			btn_minus.Font = btn_plus.Font;
+			btn_minus.Size = btn_plus.Size;
+			btn_minus.UseVisualStyleBackColor = btn_plus.UseVisualStyleBackColor;
+			btn_minus.ForeColor = Color.Salmon;
+			btn_minus.Tag = tagGuid;
+			btn_minus.Text = "-";
+			btn_minus.Click += btn_minius_Click;
+			btn_minus.Location = new Point(btn_plus.Location.X, buttonY);
+
+			TextBox tb_new_title = new();
+			tb_new_title.AccessibleName = "title";
+			tb_new_title.Font = tb_title.Font;
+			tb_new_title.ForeColor = tb_title.ForeColor;
+			tb_new_title.Size = tb_title.Size;
+			tb_new_title.Tag = tagGuid;
+			tb_new_title.Location = new Point(tb_title.Location.X, titleY);
+
+			TextBox tb_new_condition = new();
+			tb_new_condition.AccessibleName = "condition";
+			tb_new_condition.Anchor = tb_condition.Anchor;
+			tb_new_condition.Font = tb_condition.Font;
+			tb_new_condition.ForeColor = tb_condition.ForeColor;
+			tb_new_condition.Size = tb_condition.Size;
+			tb_new_condition.Tag = tagGuid;
+			tb_new_condition.Location = new Point(tb_condition.Location.X, conditionY);
+
+			panel_filter.Controls.Add(btn_minus);
+			panel_filter.Controls.Add(tb_new_title);
+			panel_filter.Controls.Add(tb_new_condition);
+
+			filterControls.Add(btn_minus);
+			filterControls.Add(tb_new_title);
+			filterControls.Add(tb_new_condition);
+		}
+
+		private void RemoveFilter(Control clickedControl)
+		{
+			var clickedControls = filterControls.FindAll(f => f.Tag.Equals(clickedControl.Tag));
+			
+			if (filterControls.Count > 3)
+			{
+				int indexOfLastClickedControl = filterControls.IndexOf(clickedControls[2]);
+
+				for (int i = filterControls.Count - 1; i > indexOfLastClickedControl; i--)
+				{
+					int repositionY = filterControls[i - 3].Location.Y;
+					filterControls[i].Location = new Point(filterControls[i].Location.X, repositionY);
+					panel_filter.Controls.OfType<Control>().FirstOrDefault(ctrl => ctrl == filterControls[i]).Location = new Point(filterControls[i].Location.X, repositionY);
+				}
+			}
+
+			foreach (Control control in clickedControls)
+			{
+				panel_filter.Controls.Remove(control);
+				filterControls.Remove(control);
 			}
 		}
 
@@ -138,80 +229,15 @@ namespace OpenYourTable.App
 				isCheckProcessing = false;
 			}
 		}
-
-		private void AddFilter()
-		{
-			int addY = 43;
-			int buttonY = btn_plus.Location.Y + addY;
-			int titleY = tb_title.Location.Y + addY;
-			int conditionY = tb_condition.Location.Y + addY;
-
-			if (filterControlList.Count >= 3)
-			{
-				buttonY = filterControlList[filterControlList.Count - 3].Location.Y + addY;
-				titleY = filterControlList[filterControlList.Count - 2].Location.Y + addY;
-				conditionY = filterControlList[filterControlList.Count - 1].Location.Y + addY;
-			}
-
-			Guid tagGuid = Guid.NewGuid();
-
-			Button btn_minus = new();
-			btn_minus.AccessibleName = "minus";
-			btn_minus.FlatAppearance.BorderSize = btn_plus.FlatAppearance.BorderSize;
-			btn_minus.FlatStyle = btn_plus.FlatStyle;
-			btn_minus.Font = btn_plus.Font;
-			btn_minus.Size = btn_plus.Size;
-			btn_minus.UseVisualStyleBackColor = btn_plus.UseVisualStyleBackColor;
-			btn_minus.ForeColor = Color.Salmon;
-			btn_minus.Tag = tagGuid;
-			btn_minus.Text = "-";
-			btn_minus.Click += btn_minius_Click;
-			btn_minus.Location = new Point(btn_plus.Location.X, buttonY);
-
-			TextBox tb_new_title = new();
-			tb_new_title.AccessibleName = "title";
-			tb_new_title.Font = tb_title.Font;
-			tb_new_title.ForeColor = tb_title.ForeColor;
-			tb_new_title.Size = tb_title.Size;
-			tb_new_title.Tag = tagGuid;
-			tb_new_title.Location = new Point(tb_title.Location.X, titleY);
-
-			TextBox tb_new_condition = new();
-			tb_new_condition.AccessibleName = "condition";
-			tb_new_condition.Anchor = tb_condition.Anchor;
-			tb_new_condition.Font = tb_condition.Font;
-			tb_new_condition.ForeColor = tb_condition.ForeColor;
-			tb_new_condition.Size = tb_condition.Size;
-			tb_new_condition.Tag = tagGuid;
-			tb_new_condition.Location = new Point(tb_condition.Location.X, conditionY);
-
-			panel_filter.Controls.Add(btn_minus);
-			panel_filter.Controls.Add(tb_new_title);
-			panel_filter.Controls.Add(tb_new_condition);
-
-			filterControlList.Add(btn_minus);
-			filterControlList.Add(tb_new_title);
-			filterControlList.Add(tb_new_condition);
-		}
-
-		private void RemoveFilter(Control clickedControl)
-		{
-			var clickedGroup = filterControlList.FindAll(f => f.Tag.Equals(clickedControl.Tag));
-			if (filterControlList.Count > 3)
-			{
-				var repositionGroup = filterControlList[(filterControlList.IndexOf(clickedGroup[2]) + 1)..];
-
-			}
-
-			foreach (Control control in clickedGroup)
-			{
-				panel_filter.Controls.Remove(control);
-				filterControlList.Remove(control);
-			}
-		}
-
+		
 		private void btn_plus_Click(object sender, EventArgs e)
 		{
+			if (filterControls.Count >= (filterControlLimit - 1) * 3)
+			{
+				MessageBox.Show($"The maximum number of filters is {filterControlLimit}.", "Filter", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+			}
+
 			AddFilter();
 		}
 
@@ -222,24 +248,28 @@ namespace OpenYourTable.App
 
 		private void btn_execute_Click(object sender, EventArgs e)
 		{
-			List<string> tableList = [];
+			List<string> tables = [];
 
-			AssignNodesToList(tree_view.Nodes, ref tableList);
+			AssignNodesToList(tree_view.Nodes, ref tables);
 
-			if (tableList.Count == 0)
+			if (tables.Count == 0)
 				return;
 
-			var tableSpecificationsBytes = _dataFetchService.GenerateSpecifications(tableList);
+			Dictionary<string, string[]> filterDic = [];
 
-			SaveFileDialog saveFileDialog = new SaveFileDialog
+			AssignFilterToDictionary(ref filterDic);
+
+			var tableSpecifications = _dataFetchService.GenerateSpecifications(tables, filterDic);
+
+			SaveFileDialog saveFileDialog = new()
 			{
-				FileName = $"{DBConnectionInfo.schema}_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}.xlsx",
+				FileName = $"{DBConnectionInfo.schema}_{DateTime.Now:yyyyMMdd_HHmmss}.xlsx",
 				Filter = "Excel Files (*.xlsx)|*.xlsx|All files (*.*)|*.*",
 			};
 
 			if (saveFileDialog.ShowDialog() == DialogResult.OK)
 			{
-				File.WriteAllBytes(saveFileDialog.FileName, tableSpecificationsBytes);
+				File.WriteAllBytes(saveFileDialog.FileName, tableSpecifications);
 
 				MessageBox.Show("Specification File is downloaded.", "Downloaded", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}

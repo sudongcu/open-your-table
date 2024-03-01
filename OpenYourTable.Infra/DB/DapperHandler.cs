@@ -22,22 +22,18 @@ namespace OpenYourTable.Infra.DB
 
 		public List<T> Query<T>(string sql, Dictionary<string, object>? parameters = null)
 		{
-			using (var connection = _dbHandler.GetConnection())
-			{
-				var queryResult = connection.Query<T>(sql, parameters);
+			using var connection = _dbHandler.GetConnection();
 
-				return queryResult.AsList();
-			}
+			var queryResult = connection.Query<T>(sql, parameters);
+			return queryResult.AsList();
 		}
 
 		public T? QueryFirstOrDefault<T>(string sql, Dictionary<string, object>? parameters = null)
 		{
-			using (var connection = _dbHandler.GetConnection())
-			{
-				var queryResult = connection.QueryFirstOrDefault<T>(sql, parameters);
+			using var connection = _dbHandler.GetConnection();
 
-				return queryResult;
-			}
+			var queryResult = connection.QueryFirstOrDefault<T>(sql, parameters);
+			return queryResult;
 		}
 	}
 }

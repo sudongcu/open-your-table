@@ -46,22 +46,22 @@ namespace OpenYourTable.Core.Services
 			return entityTables;
 		}
 
-		public byte[]? GenerateSpecifications(List<string> tableList)
+		public byte[]? GenerateSpecifications(List<string> tables, Dictionary<string, string[]> filterDic)
 		{
-			var entityTableSpecifications = _dataRepository.SelectTableSpecification<EntityTableSpecification>(tableList);
+			var entityTableSpecifications = _dataRepository.SelectTableSpecification<EntityTableSpecification>(tables);
 
-			var tableSpecifications = this.GetTableSpecificationList(tableList, entityTableSpecifications);
+			var tableSpecifications = this.GetTableSpecificationList(tables, entityTableSpecifications);
 
 			byte[]? specificationBytes = ExcelHelper.CreateExcelFile(tableSpecifications);
 
 			return specificationBytes;
 		}
 
-		private List<TableSpecification> GetTableSpecificationList(List<string> tableList, List<EntityTableSpecification> entityTableSpecifications)
+		private List<TableSpecification> GetTableSpecificationList(List<string> tables, List<EntityTableSpecification> entityTableSpecifications)
 		{
 			var tableSpecifications = new List<TableSpecification>();
 
-			foreach (var table in tableList)
+			foreach (var table in tables)
 			{
 				var entityItems = entityTableSpecifications.Where(w => w.table_name == table).Select(s => s).ToArray();
 				if (entityItems is null || entityItems.Length == 0)

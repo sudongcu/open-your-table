@@ -103,11 +103,10 @@
 			filter_group.ForeColor = Color.DodgerBlue;
 			filter_group.Location = new Point(3, 3);
 			filter_group.Name = "filter_group";
-			filter_group.Size = new Size(672, 647);
+			filter_group.Size = new Size(672, 633);
 			filter_group.TabIndex = 12;
 			filter_group.TabStop = false;
 			filter_group.Text = "Filter";
-			filter_group.Visible = false;
 			// 
 			// panel_filter
 			// 
@@ -120,7 +119,7 @@
 			panel_filter.Controls.Add(lb_condition);
 			panel_filter.Location = new Point(7, 30);
 			panel_filter.Name = "panel_filter";
-			panel_filter.Size = new Size(659, 611);
+			panel_filter.Size = new Size(659, 597);
 			panel_filter.TabIndex = 5;
 			// 
 			// tb_title
