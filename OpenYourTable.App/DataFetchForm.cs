@@ -245,18 +245,6 @@ namespace OpenYourTable.App
 				}
 			}
 		}
-		
-		private void tree_view_KeyUp(object sender, KeyEventArgs e)
-		{
-			if (e.KeyCode == Keys.ControlKey)
-			{
-				isCopyProcessing = false;
-			}
-			else if (isCopyProcessing && e.KeyCode == Keys.C)
-			{
-				isCopyProcessing = false;
-			}
-		}
 
 		private void btn_plus_Click(object sender, EventArgs e)
 		{
