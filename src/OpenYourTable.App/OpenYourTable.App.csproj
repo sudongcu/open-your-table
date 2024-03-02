@@ -11,7 +11,7 @@
     <Authors>Donggu Seo</Authors>
     <Description>A WinForms application for generating and downloading database table specifications.</Description>
     <RepositoryUrl>https://github.com/sudongcu/open-your-table</RepositoryUrl>
-    <Version>0.2.0</Version>
+    <Version>0.3.0.0</Version>
   </PropertyGroup>
 
   <ItemGroup>

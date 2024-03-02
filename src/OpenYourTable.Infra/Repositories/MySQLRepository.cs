@@ -4,9 +4,9 @@ using OpenYourTable.Obj.Enums;
 
 namespace OpenYourTable.Infra.Repositories
 {
-	public class MySqlRepository : DapperHandler, IDataRepository
+	public class MySQLRepository : DapperHandler, IDataRepository
 	{
-		public MySqlRepository() : base(DB_TYPE.MySql) { }
+		public MySQLRepository() : base(DB_TYPE.MySQL) { }
 
 		public bool SelectHealthy()
 		{
@@ -50,7 +50,7 @@ namespace OpenYourTable.Infra.Repositories
 										 WHEN c.DATETIME_PRECISION IS NOT NULL THEN c.DATETIME_PRECISION 
 	 									 ELSE c.CHARACTER_MAXIMUM_LENGTH
 									END AS max_length,
-									CASE WHEN c.IS_NULLABLE = 'YES' THEN 1 ELSE 0 END AS nullable,
+									CASE WHEN c.IS_NULLABLE = 'YES' THEN 1 ELSE 0 END AS is_nullable,
 									c.COLUMN_DEFAULT AS default_value,
 									c.EXTRA AS default_extra,
 									c.COLUMN_COMMENT AS comment,

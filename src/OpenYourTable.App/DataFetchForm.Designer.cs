@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DataFetchForm));
 			splitContainer1 = new SplitContainer();
 			tree_view = new TreeView();
@@ -40,6 +41,7 @@
 			lb_title = new Label();
 			lb_condition = new Label();
 			btn_execute = new Button();
+			tip_filter = new ToolTip(components);
 			((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
 			splitContainer1.Panel1.SuspendLayout();
 			splitContainer1.Panel2.SuspendLayout();
@@ -80,6 +82,7 @@
 			tree_view.Size = new Size(494, 820);
 			tree_view.TabIndex = 0;
 			tree_view.AfterCheck += tree_view_AfterCheck;
+			tree_view.KeyDown += tree_view_KeyDown;
 			// 
 			// panel1
 			// 
@@ -103,11 +106,10 @@
 			filter_group.ForeColor = Color.DodgerBlue;
 			filter_group.Location = new Point(3, 3);
 			filter_group.Name = "filter_group";
-			filter_group.Size = new Size(672, 647);
+			filter_group.Size = new Size(672, 633);
 			filter_group.TabIndex = 12;
 			filter_group.TabStop = false;
 			filter_group.Text = "Filter";
-			filter_group.Visible = false;
 			// 
 			// panel_filter
 			// 
@@ -120,7 +122,7 @@
 			panel_filter.Controls.Add(lb_condition);
 			panel_filter.Location = new Point(7, 30);
 			panel_filter.Name = "panel_filter";
-			panel_filter.Size = new Size(659, 611);
+			panel_filter.Size = new Size(659, 597);
 			panel_filter.TabIndex = 5;
 			// 
 			// tb_title
@@ -193,6 +195,17 @@
 			btn_execute.UseVisualStyleBackColor = false;
 			btn_execute.Click += btn_execute_Click;
 			// 
+			// tip_filter
+			// 
+			tip_filter.AutomaticDelay = 100;
+			tip_filter.AutoPopDelay = 5000;
+			tip_filter.BackColor = Color.Azure;
+			tip_filter.ForeColor = Color.DodgerBlue;
+			tip_filter.InitialDelay = 100;
+			tip_filter.ReshowDelay = 20;
+			tip_filter.ToolTipIcon = ToolTipIcon.Info;
+			tip_filter.ToolTipTitle = "Filter Rule";
+			// 
 			// DataFetchForm
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
@@ -229,5 +242,6 @@
 		private TextBox tb_condition;
 		private TextBox tb_title;
 		private Panel panel_filter;
+		private ToolTip tip_filter;
 	}
 }

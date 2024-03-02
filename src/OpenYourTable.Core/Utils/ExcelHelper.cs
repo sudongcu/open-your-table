@@ -1,24 +1,26 @@
-﻿using NUnit.Framework.Internal.Execution;
-using OfficeOpenXml;
+﻿using OfficeOpenXml;
 using OfficeOpenXml.Style;
+using OpenYourTable.Obj;
 using OpenYourTable.Obj.Enums;
 using OpenYourTable.Obj.Models.Data;
 using System.Drawing;
-using System.Reflection.PortableExecutable;
 
 namespace OpenYourTable.Core.Utils
 {
     public static class ExcelHelper
 	{
-
-		public static byte[] CreateExcelFile(List<TableSpecification> tableSpecifications)
+		public static byte[] CreateExcelFile(Dictionary<string, List<TableSpecification>> tableSpecificationDic)
 		{
-			byte[] files = null;
+			byte[] files;
 
 			using (var package = new ExcelPackage())
 			{
-				WriteTableSpecifications(package.Workbook.Worksheets.Add("tables"), tableSpecifications);
-
+				foreach (var tableSpecifications in tableSpecificationDic)
+				{
+					WriteTableSpecifications(
+						worksheet: package.Workbook.Worksheets.Add(string.IsNullOrEmpty(tableSpecifications.Key) ? DBConnectionInfo.schema : tableSpecifications.Key),
+						tableSpecifications: tableSpecifications.Value);
+				}
 
 				using (var memoryStream = new MemoryStream(package.GetAsByteArray()))
 				{

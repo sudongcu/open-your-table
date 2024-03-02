@@ -13,8 +13,8 @@ namespace OpenYourTable.Infra.DB
 			_dbHandler = dbType switch
 			{
 				DB_TYPE.MSSQL => new MSSQLHandler(),
-				DB_TYPE.MySql => new MySqlHandler(),
-				_ => new MySqlHandler()
+				DB_TYPE.MySQL => new MySQLHandler(),
+				_ => new MySQLHandler()
 			};
 
 			_dbHandler.SetConnection(DBConnectionInfo.connectionString);
@@ -22,22 +22,18 @@ namespace OpenYourTable.Infra.DB
 
 		public List<T> Query<T>(string sql, Dictionary<string, object>? parameters = null)
 		{
-			using (var connection = _dbHandler.GetConnection())
-			{
-				var queryResult = connection.Query<T>(sql, parameters);
+			using var connection = _dbHandler.GetConnection();
 
-				return queryResult.AsList();
-			}
+			var queryResult = connection.Query<T>(sql, parameters);
+			return queryResult.AsList();
 		}
 
 		public T? QueryFirstOrDefault<T>(string sql, Dictionary<string, object>? parameters = null)
 		{
-			using (var connection = _dbHandler.GetConnection())
-			{
-				var queryResult = connection.QueryFirstOrDefault<T>(sql, parameters);
+			using var connection = _dbHandler.GetConnection();
 
-				return queryResult;
-			}
+			var queryResult = connection.QueryFirstOrDefault<T>(sql, parameters);
+			return queryResult;
 		}
 	}
 }

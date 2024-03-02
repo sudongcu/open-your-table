@@ -3,7 +3,7 @@ using System.Data;
 
 namespace OpenYourTable.Infra.DB
 {
-	internal sealed class MySqlHandler : DBHandler
+	internal sealed class MySQLHandler : DBHandler
 	{
 		public override IDbConnection GetConnection()
 		{
