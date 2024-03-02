@@ -2,6 +2,7 @@
 using OpenYourTable.Core.Services;
 using OpenYourTable.Obj;
 using System.Reflection;
+using System.Text;
 
 namespace OpenYourTable.App
 {
@@ -48,6 +49,24 @@ namespace OpenYourTable.App
 		private void InitFilterGroup()
 		{
 			filterControls = [];
+			InitFilterToolTip();
+		}
+
+		private void InitFilterToolTip()
+		{
+			tip_filter.SetToolTip(lb_title, "Sheet name in Excel.");
+
+			StringBuilder sbCondition = new();
+			sbCondition.AppendLine("You can filter the table by title using various conditions.");
+			sbCondition.AppendLine("If you want to use multiple conditions, separate them with ','.");
+			sbCondition.AppendLine();
+			sbCondition.AppendLine("Allowed words:");
+			sbCondition.AppendLine();
+			sbCondition.AppendLine("- 'text': Plain text. (e.g., tablename)");
+			sbCondition.AppendLine("- '*': Filters to add character by prefix or suffix. (e.g., table*, *name)");
+			sbCondition.AppendLine("- '!': Filters to remove character by prefix. (e.g., !tablename, !*name)");
+			sbCondition.AppendLine("- Empty: All tables, but if the conditions are set above, the remaining tables.");
+			tip_filter.SetToolTip(lb_condition, sbCondition.ToString());
 		}
 
 		#endregion / Initialize
