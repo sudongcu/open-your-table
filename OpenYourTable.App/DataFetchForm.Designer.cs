@@ -80,6 +80,7 @@
 			tree_view.Size = new Size(494, 820);
 			tree_view.TabIndex = 0;
 			tree_view.AfterCheck += tree_view_AfterCheck;
+			tree_view.KeyDown += tree_view_KeyDown;
 			// 
 			// panel1
 			// 

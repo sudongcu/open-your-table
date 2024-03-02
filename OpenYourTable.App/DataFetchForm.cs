@@ -10,10 +10,11 @@ namespace OpenYourTable.App
 		private readonly DataFetchService _dataFetchService;
 		private bool isLoaded = false;
 		private bool isCheckProcessing = false;
+		private bool isCopyProcessing = false;
 
 		private List<Control> filterControls;
 		private int filterControlLimit = 13;
-		
+
 		public DataFetchForm(DataFetchService dataFetchService)
 		{
 			InitializeComponent();
@@ -158,7 +159,7 @@ namespace OpenYourTable.App
 		private void RemoveFilter(Control clickedControl)
 		{
 			var clickedControls = filterControls.FindAll(f => f.Tag.Equals(clickedControl.Tag));
-			
+
 			if (filterControls.Count > 3)
 			{
 				int indexOfLastClickedControl = filterControls.IndexOf(clickedControls[2]);
@@ -231,7 +232,32 @@ namespace OpenYourTable.App
 				isCheckProcessing = false;
 			}
 		}
+
+		private void tree_view_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.Control && e.KeyCode == Keys.C)
+			{
+				if (tree_view.SelectedNode is not null)
+				{
+					Clipboard.SetText(tree_view.SelectedNode.Text);
+					e.Handled = true;
+					e.SuppressKeyPress = true;
+				}
+			}
+		}
 		
+		private void tree_view_KeyUp(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.ControlKey)
+			{
+				isCopyProcessing = false;
+			}
+			else if (isCopyProcessing && e.KeyCode == Keys.C)
+			{
+				isCopyProcessing = false;
+			}
+		}
+
 		private void btn_plus_Click(object sender, EventArgs e)
 		{
 			if (filterControls.Count >= (filterControlLimit - 1) * 3)
