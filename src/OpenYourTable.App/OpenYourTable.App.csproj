@@ -6,16 +6,27 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-    <ApplicationIcon>oyt.ico</ApplicationIcon>
     <AssemblyName>OpenYourTable</AssemblyName>
     <Authors>Donggu Seo</Authors>
     <Description>A WinForms application for generating and downloading database table specifications.</Description>
     <RepositoryUrl>https://github.com/sudongcu/open-your-table</RepositoryUrl>
-    <Version>0.3.0.0</Version>
+    <Version>0.3.1.0</Version>
+    <Title>OpenYourTable</Title>
+    <Copyright>OpenYourTable</Copyright>
+    <PackageProjectUrl></PackageProjectUrl>
+    <PackageIcon>oyt.png</PackageIcon>
+    <ApplicationIcon>oyt.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <Content Include="oyt.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\img\oyt.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
