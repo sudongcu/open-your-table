@@ -19,7 +19,8 @@ namespace OpenYourTable.Infra.Repositories
 		public List<string> SelectTables()
 		{
 			string queryStr = @"SELECT name
-								FROM sys.tables;";
+								FROM sys.tables
+								ORDER BY name ASC;";
 
 			var entityTableNames = base.Query<string>(queryStr);
 
@@ -61,7 +62,7 @@ namespace OpenYourTable.Infra.Repositories
 											AND ep.minor_id = c.column_id
 											AND ep.class = 1
 								WHERE t.name IN @tables
-								ORDER BY t.name, c.column_id;";
+								ORDER BY t.name ASC, c.column_id ASC;";
 
 			var entityTableSpecification = base.Query<TEntity>(queryStr, parameters);
 
