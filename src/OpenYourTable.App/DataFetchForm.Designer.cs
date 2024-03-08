@@ -35,10 +35,10 @@
 			panel1 = new Panel();
 			filter_group = new GroupBox();
 			panel_filter = new Panel();
-			tb_title = new TextBox();
+			tb_tab = new TextBox();
 			tb_condition = new TextBox();
 			btn_plus = new Button();
-			lb_title = new Label();
+			lb_tab = new Label();
 			lb_condition = new Label();
 			btn_execute = new Button();
 			tip_filter = new ToolTip(components);
@@ -115,25 +115,25 @@
 			// 
 			panel_filter.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
 			panel_filter.AutoScroll = true;
-			panel_filter.Controls.Add(tb_title);
+			panel_filter.Controls.Add(tb_tab);
 			panel_filter.Controls.Add(tb_condition);
 			panel_filter.Controls.Add(btn_plus);
-			panel_filter.Controls.Add(lb_title);
+			panel_filter.Controls.Add(lb_tab);
 			panel_filter.Controls.Add(lb_condition);
 			panel_filter.Location = new Point(7, 30);
 			panel_filter.Name = "panel_filter";
 			panel_filter.Size = new Size(659, 597);
 			panel_filter.TabIndex = 5;
 			// 
-			// tb_title
+			// tb_tab
 			// 
-			tb_title.AccessibleName = "title";
-			tb_title.Font = new Font("Calibri", 12F);
-			tb_title.ForeColor = Color.DodgerBlue;
-			tb_title.Location = new Point(47, 33);
-			tb_title.Name = "tb_title";
-			tb_title.Size = new Size(159, 27);
-			tb_title.TabIndex = 3;
+			tb_tab.AccessibleName = "tab";
+			tb_tab.Font = new Font("Calibri", 12F);
+			tb_tab.ForeColor = Color.DodgerBlue;
+			tb_tab.Location = new Point(47, 33);
+			tb_tab.Name = "tb_tab";
+			tb_tab.Size = new Size(159, 27);
+			tb_tab.TabIndex = 3;
 			// 
 			// tb_condition
 			// 
@@ -161,14 +161,14 @@
 			btn_plus.UseVisualStyleBackColor = true;
 			btn_plus.Click += btn_plus_Click;
 			// 
-			// lb_title
+			// lb_tab
 			// 
-			lb_title.AutoSize = true;
-			lb_title.Location = new Point(47, 6);
-			lb_title.Name = "lb_title";
-			lb_title.Size = new Size(55, 24);
-			lb_title.TabIndex = 1;
-			lb_title.Text = "Title";
+			lb_tab.AutoSize = true;
+			lb_tab.Location = new Point(47, 6);
+			lb_tab.Name = "lb_tab";
+			lb_tab.Size = new Size(110, 24);
+			lb_tab.TabIndex = 1;
+			lb_tab.Text = "Tab Name";
 			// 
 			// lb_condition
 			// 
@@ -238,9 +238,9 @@
 		private GroupBox filter_group;
 		private Button btn_plus;
 		private Label lb_condition;
-		private Label lb_title;
+		private Label lb_tab;
 		private TextBox tb_condition;
-		private TextBox tb_title;
+		private TextBox tb_tab;
 		private Panel panel_filter;
 		private ToolTip tip_filter;
 	}

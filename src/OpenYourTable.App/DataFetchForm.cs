@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using OpenYourTable.Core.Services;
 using OpenYourTable.Obj;
+using OpenYourTable.Obj.Enums;
 using System.Reflection;
 using System.Text;
 
@@ -54,10 +55,10 @@ namespace OpenYourTable.App
 
 		private void InitFilterToolTip()
 		{
-			tip_filter.SetToolTip(lb_title, "Sheet name in Excel.");
+			tip_filter.SetToolTip(lb_tab, "Sheet name in Excel.");
 
 			StringBuilder sbCondition = new();
-			sbCondition.AppendLine("You can filter the table by title using various conditions.");
+			sbCondition.AppendLine("You can filter the table by tab using various conditions.");
 			sbCondition.AppendLine("If you want to use multiple conditions, separate them with ','.");
 			sbCondition.AppendLine();
 			sbCondition.AppendLine("Allowed words:");
@@ -109,14 +110,14 @@ namespace OpenYourTable.App
 
 		private void AssignFilterToDictionary(ref Dictionary<string, string[]> filterDic)
 		{
-			filterDic.Add(tb_title.Text, [.. tb_condition.Text.Split(',').OrderByDescending(o => o)]);
+			filterDic.Add(tb_tab.Text, [.. tb_condition.Text.Replace(" ", "").Split(',').OrderByDescending(o => o)]);
 
 			foreach (var controlGroup in filterControls.GroupBy(g => g.Tag).Select(s => s))
 			{
-				if (filterDic.ContainsKey(controlGroup.ElementAt(1).Text))
-					throw new Exception($"Duplicate titles exist. {controlGroup.ElementAt(1).Text}");
+				if (filterDic.ContainsKey(controlGroup.ElementAt((int)FILTER.TAB).Text))
+					throw new Exception($"Duplicate tabs exist. {controlGroup.ElementAt((int)FILTER.TAB).Text}");
 
-				filterDic.Add(controlGroup.ElementAt(1).Text, [.. controlGroup.ElementAt(2).Text.Split(',').OrderByDescending(o => o)]);
+				filterDic.Add(controlGroup.ElementAt((int)FILTER.TAB).Text, [.. controlGroup.ElementAt((int)FILTER.CONDITION).Text.Replace(" ", "").Split(',').OrderByDescending(o => o)]);
 			}
 		}
 
@@ -124,13 +125,13 @@ namespace OpenYourTable.App
 		{
 			int addY = 43;
 			int buttonY = btn_plus.Location.Y + addY;
-			int titleY = tb_title.Location.Y + addY;
+			int tabY = tb_tab.Location.Y + addY;
 			int conditionY = tb_condition.Location.Y + addY;
 
-			if (filterControls.Count >= 3)
+			if (filterControls.Count >= (int)FILTER.CONDITION + 1)
 			{
 				buttonY = filterControls[filterControls.Count - 3].Location.Y + addY;
-				titleY = filterControls[filterControls.Count - 2].Location.Y + addY;
+				tabY = filterControls[filterControls.Count - 2].Location.Y + addY;
 				conditionY = filterControls[filterControls.Count - 1].Location.Y + addY;
 			}
 
@@ -149,13 +150,13 @@ namespace OpenYourTable.App
 			btn_minus.Click += btn_minius_Click;
 			btn_minus.Location = new Point(btn_plus.Location.X, buttonY);
 
-			TextBox tb_new_title = new();
-			tb_new_title.AccessibleName = "title";
-			tb_new_title.Font = tb_title.Font;
-			tb_new_title.ForeColor = tb_title.ForeColor;
-			tb_new_title.Size = tb_title.Size;
-			tb_new_title.Tag = tagGuid;
-			tb_new_title.Location = new Point(tb_title.Location.X, titleY);
+			TextBox tb_new_tab = new();
+			tb_new_tab.AccessibleName = "tab";
+			tb_new_tab.Font = tb_tab.Font;
+			tb_new_tab.ForeColor = tb_tab.ForeColor;
+			tb_new_tab.Size = tb_tab.Size;
+			tb_new_tab.Tag = tagGuid;
+			tb_new_tab.Location = new Point(tb_tab.Location.X, tabY);
 
 			TextBox tb_new_condition = new();
 			tb_new_condition.AccessibleName = "condition";
@@ -167,11 +168,11 @@ namespace OpenYourTable.App
 			tb_new_condition.Location = new Point(tb_condition.Location.X, conditionY);
 
 			panel_filter.Controls.Add(btn_minus);
-			panel_filter.Controls.Add(tb_new_title);
+			panel_filter.Controls.Add(tb_new_tab);
 			panel_filter.Controls.Add(tb_new_condition);
 
 			filterControls.Add(btn_minus);
-			filterControls.Add(tb_new_title);
+			filterControls.Add(tb_new_tab);
 			filterControls.Add(tb_new_condition);
 		}
 

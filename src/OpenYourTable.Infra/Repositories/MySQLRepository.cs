@@ -26,7 +26,8 @@ namespace OpenYourTable.Infra.Repositories
 
 			string queryStr = @"SELECT TABLE_NAME AS table_name
 								FROM INFORMATION_SCHEMA.TABLES
-								WHERE TABLE_SCHEMA = @schema ;";
+								WHERE TABLE_SCHEMA = @schema
+								ORDER BY TABLE_NAME ASC;";
 
 			var entityTableNames = base.Query<string>(queryStr, parameters);
 
