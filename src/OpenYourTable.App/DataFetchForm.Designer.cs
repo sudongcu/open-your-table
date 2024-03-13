@@ -32,6 +32,8 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DataFetchForm));
 			splitContainer1 = new SplitContainer();
 			tree_view = new TreeView();
+			panel2 = new Panel();
+			btn_refresh = new Button();
 			panel1 = new Panel();
 			filter_group = new GroupBox();
 			panel_filter = new Panel();
@@ -46,6 +48,7 @@
 			splitContainer1.Panel1.SuspendLayout();
 			splitContainer1.Panel2.SuspendLayout();
 			splitContainer1.SuspendLayout();
+			panel2.SuspendLayout();
 			panel1.SuspendLayout();
 			filter_group.SuspendLayout();
 			panel_filter.SuspendLayout();
@@ -60,6 +63,7 @@
 			// splitContainer1.Panel1
 			// 
 			splitContainer1.Panel1.Controls.Add(tree_view);
+			splitContainer1.Panel1.Controls.Add(panel2);
 			// 
 			// splitContainer1.Panel2
 			// 
@@ -70,19 +74,45 @@
 			// 
 			// tree_view
 			// 
+			tree_view.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
 			tree_view.BackColor = Color.White;
-			tree_view.BorderStyle = BorderStyle.FixedSingle;
+			tree_view.BorderStyle = BorderStyle.None;
 			tree_view.CheckBoxes = true;
-			tree_view.Dock = DockStyle.Fill;
 			tree_view.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
 			tree_view.ForeColor = Color.DodgerBlue;
 			tree_view.LineColor = Color.DodgerBlue;
-			tree_view.Location = new Point(0, 0);
+			tree_view.Location = new Point(4, 34);
 			tree_view.Name = "tree_view";
-			tree_view.Size = new Size(494, 820);
+			tree_view.Size = new Size(486, 782);
 			tree_view.TabIndex = 0;
 			tree_view.AfterCheck += tree_view_AfterCheck;
 			tree_view.KeyDown += tree_view_KeyDown;
+			// 
+			// panel2
+			// 
+			panel2.BackColor = Color.White;
+			panel2.BorderStyle = BorderStyle.FixedSingle;
+			panel2.Controls.Add(btn_refresh);
+			panel2.Dock = DockStyle.Fill;
+			panel2.Location = new Point(0, 0);
+			panel2.Name = "panel2";
+			panel2.Size = new Size(494, 820);
+			panel2.TabIndex = 1;
+			// 
+			// btn_refresh
+			// 
+			btn_refresh.BackColor = Color.White;
+			btn_refresh.FlatAppearance.BorderSize = 0;
+			btn_refresh.FlatStyle = FlatStyle.Flat;
+			btn_refresh.Font = new Font("Impact", 15F);
+			btn_refresh.ForeColor = Color.DodgerBlue;
+			btn_refresh.Image = (Image)resources.GetObject("btn_refresh.Image");
+			btn_refresh.Location = new Point(1, -3);
+			btn_refresh.Name = "btn_refresh";
+			btn_refresh.Size = new Size(35, 37);
+			btn_refresh.TabIndex = 0;
+			btn_refresh.UseVisualStyleBackColor = false;
+			btn_refresh.Click += btn_refresh_Click;
 			// 
 			// panel1
 			// 
@@ -222,6 +252,7 @@
 			splitContainer1.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
 			splitContainer1.ResumeLayout(false);
+			panel2.ResumeLayout(false);
 			panel1.ResumeLayout(false);
 			filter_group.ResumeLayout(false);
 			panel_filter.ResumeLayout(false);
@@ -243,5 +274,7 @@
 		private TextBox tb_tab;
 		private Panel panel_filter;
 		private ToolTip tip_filter;
+		private Panel panel2;
+		private Button btn_refresh;
 	}
 }

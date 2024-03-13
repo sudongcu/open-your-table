@@ -38,11 +38,11 @@ namespace OpenYourTable.App
 
 		private void Init()
 		{
-			InitTreeView();
+			InitTableTreeView();
 			InitFilterGroup();
 		}
 
-		private void InitTreeView()
+		private void InitTableTreeView()
 		{
 			BindTableTree();
 		}
@@ -309,6 +309,12 @@ namespace OpenYourTable.App
 
 				MessageBox.Show("Specification File is downloaded.", "Downloaded", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
+		}
+
+		private void btn_refresh_Click(object sender, EventArgs e)
+		{
+			tree_view.Nodes.Clear();
+			BindTableTree();
 		}
 	}
 }
