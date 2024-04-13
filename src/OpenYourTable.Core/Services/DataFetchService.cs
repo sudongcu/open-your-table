@@ -49,15 +49,15 @@ namespace OpenYourTable.Core.Services
 			return entityTables;
 		}
 
-		public byte[]? GenerateSpecifications(List<string> tables, Dictionary<string, string[]> filterDic)
+		public byte[]? GenerateSpecifications(TableGenerateInfo generateInfo)
 		{
-			var entityTableSpecifications = _dataRepository.SelectTableSpecification<EntityTableSpecification>(tables);
+			var entityTableSpecifications = _dataRepository.SelectTableSpecification<EntityTableSpecification>(generateInfo.tables);
 
-			var filteredTableDic = this.DevideTableByFilter(tables, filterDic);
+			var filteredTableDic = this.DevideTableByFilter(generateInfo.tables, generateInfo.filterDic);
 
 			var tableSpecificationDic = this.GetTableSpecification(filteredTableDic, entityTableSpecifications);
 
-			byte[]? specificationBytes = ExcelHelper.CreateExcelFile(tableSpecificationDic);
+			byte[]? specificationBytes = ExcelHelper.CreateExcelFile(tableSpecificationDic, generateInfo.option);
 
 			return specificationBytes;
 		}
@@ -147,6 +147,12 @@ namespace OpenYourTable.Core.Services
 
 					foreach (var entityItem in entityItems)
 					{
+						if (tableSpecification.columns.Any(a => a.name == entityItem.column_name))
+						{
+							tableSpecification.columns.Find(f => f.name == entityItem.column_name).index += $", {DataHelper.GenerateIndexValue(entityItem.is_primary, entityItem.index_name, entityItem.non_unique)}";
+							continue;
+						}
+
 						tableSpecification.columns.Add(new ColumnSpecification()
 						{
 							name = entityItem.column_name,

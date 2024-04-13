@@ -44,6 +44,7 @@
 			lb_condition = new Label();
 			btn_execute = new Button();
 			tip_filter = new ToolTip(components);
+			mySqlCommand1 = new MySql.Data.MySqlClient.MySqlCommand();
 			((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
 			splitContainer1.Panel1.SuspendLayout();
 			splitContainer1.Panel2.SuspendLayout();
@@ -236,6 +237,13 @@
 			tip_filter.ToolTipIcon = ToolTipIcon.Info;
 			tip_filter.ToolTipTitle = "Filter Rule";
 			// 
+			// mySqlCommand1
+			// 
+			mySqlCommand1.CacheAge = 0;
+			mySqlCommand1.Connection = null;
+			mySqlCommand1.EnableCaching = false;
+			mySqlCommand1.Transaction = null;
+			// 
 			// DataFetchForm
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
@@ -276,5 +284,6 @@
 		private ToolTip tip_filter;
 		private Panel panel2;
 		private Button btn_refresh;
+		private MySql.Data.MySqlClient.MySqlCommand mySqlCommand1;
 	}
 }
