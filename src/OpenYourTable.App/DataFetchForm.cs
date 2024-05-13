@@ -291,7 +291,7 @@ namespace OpenYourTable.App
 				filterDic = [],
 				option = new TableGenerateOption()
 				{
-					headerColor = "#AFE1E3"
+					headerColor = "#D4F4FA"
 				}
 			};
 
