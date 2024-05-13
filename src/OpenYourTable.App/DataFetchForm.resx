@@ -117,10 +117,37 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <metadata name="toolStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>266, 5</value>
+  </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="btn_refresh.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAIWSURBVEhL3ZW/axRREMc3GiKYwHX5C1KdeD/2xS5gJ4io
+        IAZtbJJCqySC6QLXpInYCPfjPe2iEpLW/8DGykpFNChapA0owR+83Xl+5+3srdwme1m5Rj/w4O47b2Zn
+        Zt+bDf5vZh7SqVlDt5SOt8Ou/VRv2x/Ntv2G3++ViZ+oHl0/33Ljsr0cCHxTabunjHNFix/W1HRZ3AKl
+        aQ1+u/I3z/yOO4mMO2mARjd6pQzdPveIztS6NF1tuykEnIV2t2HsR7+vbSnU8XqoqZX6Sbg8afCasd/R
+        gsXAuTEx5eBkEHQVe20auPAByOxGP7hxcyIPBUk9/TM4LzFl8AtNe47+L4g8FN/zgeC8xJzhTwsM3POi
+        tgzCL3QwuNLRCzFn8FFMjHRHpNGSnG1U0KOqSKNFGbsvJVZEGi1ycvgBp0UqTXKHopdo93ORMpomes0P
+        aD6mmkilYd8kSftBpAzcxC02hoaWRSoNLt2ST7IXPxMpA7f2qjeikqDlToh8bHx7jH3rY2i6JnIGT8V6
+        x37xVWhaEfnYcOXsi3vx+cgJi8t2kQcXj2X+LfJQkNAF+P2S5C6JfDjo3wOfibE/uRIuXUw5ZNit8N7E
+        J74vpmLwwjcSB2TUi96g/HtyQiq1TZpE0LMcGC195/ehak6szIjx7erP+6KFWYS9V8StHNUdN8HOfOy4
+        ElzGr6prD/qfTOPm//qT+Y8QBL8B2ru8cCwS5OIAAAAASUVORK5CYII=
+</value>
+  </data>
   <metadata name="tip_filter.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <metadata name="mySqlCommand1.DesignTimeVisible" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
+  </metadata>
+  <metadata name="mySqlCommand1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>114, 17</value>
+  </metadata>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>25</value>
+  </metadata>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAEAgIAAAAEAIAAoCAEAFgAAACgAAACAAAAAAAEAAAEAIAAAAAAAAAABAAAAAAAAAAAAAAAAAAAA

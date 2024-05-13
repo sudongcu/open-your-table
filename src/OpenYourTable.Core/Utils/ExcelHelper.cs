@@ -1,4 +1,5 @@
-﻿using OfficeOpenXml;
+﻿using Google.Protobuf.WellKnownTypes;
+using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using OpenYourTable.Obj;
 using OpenYourTable.Obj.Enums;
@@ -9,8 +10,12 @@ namespace OpenYourTable.Core.Utils
 {
     public static class ExcelHelper
 	{
-		public static byte[] CreateExcelFile(Dictionary<string, List<TableSpecification>> tableSpecificationDic)
+		private static Color headerColor;
+
+		public static byte[] CreateExcelFile(Dictionary<string, List<TableSpecification>> tableSpecificationDic, TableGenerateOption option)
 		{
+			headerColor = TableGenerateOption.ToColor(option.headerColor);
+
 			byte[] files;
 
 			using (var package = new ExcelPackage())
@@ -94,7 +99,7 @@ namespace OpenYourTable.Core.Utils
 			if (isHeader)
 			{
 				tableCellRange.Style.Fill.PatternType = ExcelFillStyle.Solid;
-				tableCellRange.Style.Fill.BackgroundColor.SetColor(Color.AliceBlue);
+				tableCellRange.Style.Fill.BackgroundColor.SetColor(headerColor);
 				tableCellRange.Style.Font.Bold = true;
 			}
 		}
@@ -111,7 +116,7 @@ namespace OpenYourTable.Core.Utils
 			if (isHeader)
 			{
 				columnCellRange.Style.Fill.PatternType = ExcelFillStyle.Solid;
-				columnCellRange.Style.Fill.BackgroundColor.SetColor(Color.AliceBlue);
+				columnCellRange.Style.Fill.BackgroundColor.SetColor(headerColor);
 				columnCellRange.Style.Font.Bold = true;
 			}
 		}

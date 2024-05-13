@@ -32,6 +32,9 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DataFetchForm));
 			splitContainer1 = new SplitContainer();
 			tree_view = new TreeView();
+			panel2 = new Panel();
+			toolStrip = new ToolStrip();
+			btn_refresh = new ToolStripButton();
 			panel1 = new Panel();
 			filter_group = new GroupBox();
 			panel_filter = new Panel();
@@ -42,10 +45,13 @@
 			lb_condition = new Label();
 			btn_execute = new Button();
 			tip_filter = new ToolTip(components);
+			mySqlCommand1 = new MySql.Data.MySqlClient.MySqlCommand();
 			((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
 			splitContainer1.Panel1.SuspendLayout();
 			splitContainer1.Panel2.SuspendLayout();
 			splitContainer1.SuspendLayout();
+			panel2.SuspendLayout();
+			toolStrip.SuspendLayout();
 			panel1.SuspendLayout();
 			filter_group.SuspendLayout();
 			panel_filter.SuspendLayout();
@@ -60,6 +66,7 @@
 			// splitContainer1.Panel1
 			// 
 			splitContainer1.Panel1.Controls.Add(tree_view);
+			splitContainer1.Panel1.Controls.Add(panel2);
 			// 
 			// splitContainer1.Panel2
 			// 
@@ -70,19 +77,53 @@
 			// 
 			// tree_view
 			// 
+			tree_view.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
 			tree_view.BackColor = Color.White;
-			tree_view.BorderStyle = BorderStyle.FixedSingle;
+			tree_view.BorderStyle = BorderStyle.None;
 			tree_view.CheckBoxes = true;
-			tree_view.Dock = DockStyle.Fill;
 			tree_view.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
 			tree_view.ForeColor = Color.DodgerBlue;
 			tree_view.LineColor = Color.DodgerBlue;
-			tree_view.Location = new Point(0, 0);
+			tree_view.Location = new Point(4, 34);
 			tree_view.Name = "tree_view";
-			tree_view.Size = new Size(494, 820);
+			tree_view.Size = new Size(486, 782);
 			tree_view.TabIndex = 0;
 			tree_view.AfterCheck += tree_view_AfterCheck;
 			tree_view.KeyDown += tree_view_KeyDown;
+			// 
+			// panel2
+			// 
+			panel2.BackColor = Color.White;
+			panel2.BorderStyle = BorderStyle.FixedSingle;
+			panel2.Controls.Add(toolStrip);
+			panel2.Dock = DockStyle.Fill;
+			panel2.Location = new Point(0, 0);
+			panel2.Name = "panel2";
+			panel2.Size = new Size(494, 820);
+			panel2.TabIndex = 1;
+			// 
+			// toolStrip
+			// 
+			toolStrip.BackColor = Color.White;
+			toolStrip.GripStyle = ToolStripGripStyle.Hidden;
+			toolStrip.ImeMode = ImeMode.NoControl;
+			toolStrip.Items.AddRange(new ToolStripItem[] { btn_refresh });
+			toolStrip.Location = new Point(0, 0);
+			toolStrip.Name = "toolStrip";
+			toolStrip.Size = new Size(492, 25);
+			toolStrip.TabIndex = 1;
+			// 
+			// btn_refresh
+			// 
+			btn_refresh.DisplayStyle = ToolStripItemDisplayStyle.Image;
+			btn_refresh.Image = (Image)resources.GetObject("btn_refresh.Image");
+			btn_refresh.ImageTransparentColor = Color.DodgerBlue;
+			btn_refresh.Margin = new Padding(2, 1, 0, 2);
+			btn_refresh.Name = "btn_refresh";
+			btn_refresh.Size = new Size(23, 22);
+			btn_refresh.Text = "toolStripButton1";
+			btn_refresh.ToolTipText = "Refresh Tables";
+			btn_refresh.Click += btn_refresh_Click;
 			// 
 			// panel1
 			// 
@@ -206,6 +247,13 @@
 			tip_filter.ToolTipIcon = ToolTipIcon.Info;
 			tip_filter.ToolTipTitle = "Filter Rule";
 			// 
+			// mySqlCommand1
+			// 
+			mySqlCommand1.CacheAge = 0;
+			mySqlCommand1.Connection = null;
+			mySqlCommand1.EnableCaching = false;
+			mySqlCommand1.Transaction = null;
+			// 
 			// DataFetchForm
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
@@ -222,6 +270,10 @@
 			splitContainer1.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
 			splitContainer1.ResumeLayout(false);
+			panel2.ResumeLayout(false);
+			panel2.PerformLayout();
+			toolStrip.ResumeLayout(false);
+			toolStrip.PerformLayout();
 			panel1.ResumeLayout(false);
 			filter_group.ResumeLayout(false);
 			panel_filter.ResumeLayout(false);
@@ -243,5 +295,9 @@
 		private TextBox tb_tab;
 		private Panel panel_filter;
 		private ToolTip tip_filter;
+		private Panel panel2;
+		private MySql.Data.MySqlClient.MySqlCommand mySqlCommand1;
+		private ToolStrip toolStrip;
+		private ToolStripButton btn_refresh;
 	}
 }

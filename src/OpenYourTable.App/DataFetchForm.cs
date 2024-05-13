@@ -2,6 +2,7 @@
 using OpenYourTable.Core.Services;
 using OpenYourTable.Obj;
 using OpenYourTable.Obj.Enums;
+using OpenYourTable.Obj.Models.Data;
 using System.Reflection;
 using System.Text;
 
@@ -15,7 +16,7 @@ namespace OpenYourTable.App
 		private bool isCopyProcessing = false;
 
 		private List<Control> filterControls;
-		private int filterControlLimit = 13;
+		private int filterControlLimit = 10;
 
 		public DataFetchForm(DataFetchService dataFetchService)
 		{
@@ -38,11 +39,11 @@ namespace OpenYourTable.App
 
 		private void Init()
 		{
-			InitTreeView();
+			InitTableTreeView();
 			InitFilterGroup();
 		}
 
-		private void InitTreeView()
+		private void InitTableTreeView()
 		{
 			BindTableTree();
 		}
@@ -94,7 +95,7 @@ namespace OpenYourTable.App
 			parentNode.Expand();
 		}
 
-		private void AssignNodesToList(TreeNodeCollection nodeCollection, ref List<string> nodes)
+		private void AssignNodesToList(TreeNodeCollection nodeCollection, List<string> nodes)
 		{
 			foreach (TreeNode node in nodeCollection)
 			{
@@ -104,20 +105,20 @@ namespace OpenYourTable.App
 				}
 
 				if (node.Nodes.Count > 0)
-					AssignNodesToList(node.Nodes, ref nodes);
+					AssignNodesToList(node.Nodes, nodes);
 			}
 		}
 
-		private void AssignFilterToDictionary(ref Dictionary<string, string[]> filterDic)
+		private void AssignFilterToDictionary(Dictionary<string, string[]> filterDic)
 		{
-			filterDic.Add(tb_tab.Text, [.. tb_condition.Text.Replace(" ", "").Split(',').OrderByDescending(o => o)]);
+			filterDic.Add(tb_tab.Text, [.. tb_condition.Text.Replace(" ", "").Split(',')]);
 
 			foreach (var controlGroup in filterControls.GroupBy(g => g.Tag).Select(s => s))
 			{
 				if (filterDic.ContainsKey(controlGroup.ElementAt((int)FILTER.TAB).Text))
 					throw new Exception($"Duplicate tabs exist. {controlGroup.ElementAt((int)FILTER.TAB).Text}");
 
-				filterDic.Add(controlGroup.ElementAt((int)FILTER.TAB).Text, [.. controlGroup.ElementAt((int)FILTER.CONDITION).Text.Replace(" ", "").Split(',').OrderByDescending(o => o)]);
+				filterDic.Add(controlGroup.ElementAt((int)FILTER.TAB).Text, [.. controlGroup.ElementAt((int)FILTER.CONDITION).Text.Replace(" ", "").Split(',')]);
 			}
 		}
 
@@ -284,18 +285,24 @@ namespace OpenYourTable.App
 
 		private void btn_execute_Click(object sender, EventArgs e)
 		{
-			List<string> tables = [];
+			var generateInfo = new TableGenerateInfo()
+			{
+				tables = [],
+				filterDic = [],
+				option = new TableGenerateOption()
+				{
+					headerColor = "#D4F4FA"
+				}
+			};
 
-			AssignNodesToList(tree_view.Nodes, ref tables);
+			AssignNodesToList(tree_view.Nodes, generateInfo.tables);
 
-			if (tables.Count == 0)
+			if (generateInfo.tables.Count == 0)
 				return;
+			
+			AssignFilterToDictionary(generateInfo.filterDic);
 
-			Dictionary<string, string[]> filterDic = [];
-
-			AssignFilterToDictionary(ref filterDic);
-
-			var tableSpecifications = _dataFetchService.GenerateSpecifications(tables, filterDic);
+			var tableSpecifications = _dataFetchService.GenerateSpecifications(generateInfo);
 
 			SaveFileDialog saveFileDialog = new()
 			{
@@ -309,6 +316,12 @@ namespace OpenYourTable.App
 
 				MessageBox.Show("Specification File is downloaded.", "Downloaded", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
+		}
+
+		private void btn_refresh_Click(object sender, EventArgs e)
+		{
+			tree_view.Nodes.Clear();
+			BindTableTree();
 		}
 	}
 }
